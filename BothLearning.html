@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관용어 & 속담 학습 마스터 게임!</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 구글 웹폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .nanum-font {
+      font-family: 'Nanum Pen Script', cursive;
+    }
+    /* 카드 3D 뒤집기 효과 */
+    .perspective {
+      perspective: 1000px;
+    }
+    .preserve-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    /* 커스텀 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- 전체 레이아웃 컨테이너 -->
+  <div class="flex-1 flex flex-col md:flex-row h-screen overflow-hidden">
+    
+    <!-- 왼쪽 사이드바 (데스크톱) / 상단바 (모바일) -->
+    <aside class="w-full md:w-64 bg-emerald-600 text-white flex flex-col flex-shrink-0 shadow-lg z-10">
+      <!-- 헤더 브랜드 로고 -->
+      <div class="p-5 border-b border-emerald-500 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <svg class="w-8 h-8 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+          <div>
+            <h1 class="font-extrabold text-lg leading-tight">지혜 쑥쑥!</h1>
+            <p class="text-xs text-emerald-200">초등 어휘 학습 끝판왕</p>
+          </div>
+        </div>
+        <div class="bg-yellow-400 text-emerald-950 px-2 py-0.5 rounded-full text-xs font-bold shadow nanum-font text-base">
+          고동이 & 까망이
+        </div>
+      </div>
+
+      <!-- 메뉴 네비게이션 -->
+      <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+        <button onclick="switchView('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 bg-emerald-700 text-white font-semibold">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"></path></svg>
+          <span>학습 대시보드</span>
+        </button>
+        <button onclick="switchView('dictionary')" id="nav-dictionary" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 hover:bg-emerald-500 text-emerald-100 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          <span>플래시 학습 사전</span>
+        </button>
+        <button onclick="switchView('quiz')" id="nav-quiz" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 hover:bg-emerald-500 text-emerald-100 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>빈칸 채우기 퀴즈</span>
+        </button>
+        <button onclick="switchView('matching')" id="nav-matching" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 hover:bg-emerald-500 text-emerald-100 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+          <span>카드 짝 맞추기 게임</span>
+        </button>
+        <button onclick="switchView('speedrun')" id="nav-speedrun" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 hover:bg-emerald-500 text-emerald-100 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span class="flex items-center space-x-1">
+            <span>서바이벌 스피드런</span>
+            <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.2 rounded-full animate-pulse">HOT</span>
+          </span>
+        </button>
+      </nav>
+
+      <!-- 사용자 기본 요약 정보 -->
+      <div class="p-4 bg-emerald-700 m-4 rounded-2xl">
+        <div class="flex items-center space-x-3 mb-2">
+          <div class="w-10 h-10 bg-yellow-300 rounded-full flex items-center justify-center text-emerald-900 font-extrabold text-lg">🎓</div>
+          <div>
+            <div class="text-xs text-emerald-200">나의 명예 등급</div>
+            <div class="text-sm font-bold text-yellow-300" id="badge-level">어휘 새내기</div>
+          </div>
+        </div>
+        <div class="space-y-1 text-xs text-emerald-100">
+          <div class="flex justify-between">
+            <span>총 학습 점수:</span>
+            <span class="font-bold text-yellow-300" id="sidebar-score">0점</span>
+          </div>
+          <div class="flex justify-between">
+            <span>게임 완료 수:</span>
+            <span class="font-bold text-yellow-300" id="sidebar-count">0회</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="flex-1 flex flex-col overflow-hidden bg-slate-50">
+      
+      <!-- 상단 헤더 영역 -->
+      <header class="bg-white border-b border-slate-200 px-6 py-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div class="flex items-center justify-between sm:justify-start space-x-4">
+          <span id="current-view-title" class="text-xl font-bold text-slate-800">학습 대시보드</span>
+        </div>
+        
+        <!-- 글로벌 학습 범위 필터 스위치 -->
+        <div class="flex items-center justify-between gap-4">
+          <div class="bg-slate-100 p-1 rounded-2xl flex border border-slate-200 text-xs font-bold">
+            <button onclick="setStudyMode('idiom')" id="mode-btn-idiom" class="px-4 py-2 rounded-xl transition duration-150 bg-emerald-600 text-white shadow-sm">
+              관용어만
+            </button>
+            <button onclick="setStudyMode('proverb')" id="mode-btn-proverb" class="px-4 py-2 rounded-xl transition duration-150 text-slate-600 hover:bg-slate-200">
+              속담만
+            </button>
+            <button onclick="setStudyMode('combined')" id="mode-btn-combined" class="px-4 py-2 rounded-xl transition duration-150 text-slate-600 hover:bg-slate-200">
+              둘 다 함께
+            </button>
+          </div>
+          
+          <div class="flex items-center space-x-3">
+            <button onclick="toggleSound()" class="p-2.5 rounded-full hover:bg-slate-100 text-slate-600 transition" title="소리 켜기/끄기">
+              <span id="sound-icon" class="text-xl">🔊</span>
+            </button>
+            <div class="flex items-center space-x-1.5 bg-yellow-100 text-yellow-900 border border-yellow-200 px-3 py-2 rounded-full text-sm">
+              <span class="text-yellow-500">⭐</span>
+              <span class="font-black" id="user-points">0</span>
+              <span class="text-[10px] text-yellow-800 font-bold">P</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- 콘텐츠 슬롯 영역 (스크롤 가능) -->
+      <div class="flex-1 overflow-y-auto p-6" id="main-content-scroll">
+        
+        <!-- -------------------- 1. 대시보드 뷰 -------------------- -->
+        <section id="view-dashboard" class="space-y-6">
+          
+          <!-- 환영 배너 -->
+          <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-lg">
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl font-bold">🏫</div>
+            <div class="relative z-10 max-w-lg space-y-3">
+              <span class="bg-emerald-400 bg-opacity-40 text-emerald-100 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">초등학교 국어 표현력 극대화</span>
+              <h2 class="text-2xl md:text-3xl font-extrabold leading-tight">말에 기품과 재치를 더하는<br>초등 필수 관용어 & 속담 대항전</h2>
+              <p class="text-emerald-100 text-sm">재미있는 150개의 필수 관용구와 지혜가 담긴 100개의 속담이 총망라되어 있습니다. 플래시 카드로 공부하고 재미있는 서바이벌 퀴즈에 맞서보세요!</p>
+              <div class="pt-2 flex flex-wrap gap-2">
+                <button onclick="switchView('quiz')" class="bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold px-5 py-2.5 rounded-xl transition transform hover:-translate-y-0.5 shadow">
+                  지금 빈칸 퀴즈 시작하기 🚀
+                </button>
+                <button onclick="switchView('dictionary')" class="bg-white hover:bg-slate-50 text-emerald-700 font-bold px-5 py-2.5 rounded-xl transition transform hover:-translate-y-0.5 shadow">
+                  사전 정독 공부하기 📖
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 그리드 레이아웃 -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- 왼쪽: 오늘의 추천 카드 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                  <span>💡 오늘의 추천 표현</span>
+                </h3>
+                <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-black uppercase tracking-wider" id="today-type-tag">관용어</span>
+              </div>
+              <div class="flex-1 flex flex-col justify-between p-4 bg-amber-50 rounded-2xl border border-amber-100 min-h-[160px]">
+                <div>
+                  <h4 class="text-lg md:text-xl font-extrabold text-amber-900 mb-1" id="today-phrase">발등에 불이 떨어지다</h4>
+                  <p class="text-xs md:text-sm text-slate-600 font-medium" id="today-meaning">일이 매우 급박해지다</p>
+                </div>
+                <p class="text-xs text-slate-500 italic mt-4 bg-white p-2.5 rounded-lg border border-amber-100 leading-relaxed" id="today-example">
+                  "숙제를 미루다 보니 이제 진짜 발등에 불이 떨어졌어."
+                </p>
+              </div>
+              <button onclick="testSpecificIdiom()" class="w-full mt-4 bg-slate-900 text-white hover:bg-slate-800 font-bold py-2.5 rounded-xl transition text-sm shadow">
+                이 퀴즈 집중 공략하기 🎯
+              </button>
+            </div>
+
+            <!-- 가운데: 즐겨찾는 목록 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                  <span>⭐ 내가 찜해둔 북마크</span>
+                </h3>
+                <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full font-black" id="bookmark-count">0개</span>
+              </div>
+              <div class="flex-1 overflow-y-auto max-h-[220px] space-y-2 pr-1" id="bookmark-list-container">
+                <!-- 북마크 리스트 동적 삽입 -->
+                <div class="text-center py-8 text-slate-400 text-sm">
+                  <p>북마크한 표현이 없습니다.</p>
+                  <p class="text-xs mt-1">사전 공부 탭에서 별(⭐)을 클릭해 저장해보세요!</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 오른쪽: 학업 업적 뱃지 목록 -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+              <h3 class="font-bold text-slate-800 text-base mb-4 flex items-center space-x-2">
+                <span>🏆 나의 메달 & 뱃지 현황</span>
+              </h3>
+              <div class="grid grid-cols-3 gap-2 flex-1">
+                <!-- 뱃지 1 -->
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center opacity-40 transition-all duration-300" id="badge-1">
+                  <span class="text-2xl mb-1">🐣</span>
+                  <span class="text-[9px] font-bold text-slate-700">첫 걸음</span>
+                  <span class="text-[8px] text-slate-400">퀴즈 1회 완료</span>
+                </div>
+                <!-- 뱃지 2 -->
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center opacity-40 transition-all duration-300" id="badge-2">
+                  <span class="text-2xl mb-1">⚡</span>
+                  <span class="text-[9px] font-bold text-slate-700">타임러너</span>
+                  <span class="text-[8px] text-slate-400">스피드런 50점</span>
+                </div>
+                <!-- 뱃지 3 -->
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center opacity-40 transition-all duration-300" id="badge-3">
+                  <span class="text-2xl mb-1">🎓</span>
+                  <span class="text-[9px] font-bold text-slate-700">지혜 박사</span>
+                  <span class="text-[8px] text-slate-400">총 1,000점 돌파</span>
+                </div>
+                <!-- 뱃지 4 -->
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center opacity-40 transition-all duration-300" id="badge-4">
+                  <span class="text-2xl mb-1">🃏</span>
+                  <span class="text-[9px] font-bold text-slate-700">기억력 대가</span>
+                  <span class="text-[8px] text-slate-400">총 300점 돌파</span>
+                </div>
+                <!-- 뱃지 5 -->
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center opacity-40 transition-all duration-300" id="badge-5">
+                  <span class="text-2xl mb-1">🧠</span>
+                  <span class="text-[9px] font-bold text-slate-700">집중 단련</span>
+                  <span class="text-[8px] text-slate-400">북마크 5개 기록</span>
+                </div>
+                <!-- 뱃지 6 -->
+                <div class="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center opacity-40 transition-all duration-300" id="badge-6">
+                  <span class="text-2xl mb-1">👑</span>
+                  <span class="text-[9px] font-bold text-slate-700">우수 엘리트</span>
+                  <span class="text-[8px] text-slate-400">어휘 마스터 달성</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 어휘 지혜 한마디 가이드보드 -->
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 flex items-start space-x-3">
+            <span class="text-2xl">💡</span>
+            <div>
+              <h4 class="font-bold text-emerald-950 text-sm">관용어와 속담은 어떻게 다른가요?</h4>
+              <p class="text-xs text-emerald-800 mt-1.5 leading-relaxed">
+                <strong>관용어(Idiom)</strong>는 '입이 무겁다'처럼 두 개 이상의 낱말이 결합해 원래 의미와 전혀 다른 새로운 특별한 뜻을 이루는 표현이고, <strong>속담(Proverb)</strong>은 '백지장도 맞들면 낫다'와 같이 조상들의 교훈, 비판, 지혜가 문장 전체에 뼈대 깊게 담겨 전해져 내려오는 가르침입니다. 둘 다 완벽하게 정복하여 명실상부한 국어 천재가 되어봅시다!
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- -------------------- 2. 플래시 사전 뷰 -------------------- -->
+        <section id="view-dictionary" class="space-y-6 hidden">
+          <!-- 필터 및 검색 바 -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            
+            <!-- 검색 인풋 -->
+            <div class="relative flex-1 max-w-md">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 pointer-events-none">🔍</span>
+              <input type="text" id="dict-search" oninput="filterDictionary()" placeholder="단어명, 뜻, 대화문 예문 검색..." class="w-full bg-slate-50 border border-slate-200 pl-10 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+
+            <!-- 신체 부위 및 분류 필터 태그 -->
+            <div class="flex flex-wrap gap-1.5" id="dict-category-container">
+              <!-- JS에서 동적으로 필터 버튼들 삽입 -->
+            </div>
+          </div>
+
+          <!-- 카드 뒤집기 힌트 가이드 -->
+          <div class="text-center py-2 text-xs text-slate-500 flex items-center justify-center space-x-2">
+            <span>💡 <strong>Tip!</strong> 카드 본체를 클릭하면 뒤집혀 반대쪽 면(뜻/예문)을 확인할 수 있습니다.</span>
+          </div>
+
+          <!-- 사전 리스트 그리드 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="dictionary-grid">
+            <!-- 동적으로 어휘 카드 추가됨 -->
+          </div>
+        </section>
+
+        <!-- -------------------- 3. 빈칸 채우기 퀴즈 뷰 -------------------- -->
+        <section id="view-quiz" class="space-y-6 hidden">
+          
+          <!-- 설정 화면 -->
+          <div id="quiz-setup" class="bg-white p-8 rounded-3xl border border-slate-200 shadow-md max-w-2xl mx-auto text-center space-y-6">
+            <span class="text-5xl">✏️</span>
+            <div>
+              <h3 class="text-2xl font-extrabold text-slate-800">어휘 빈칸 맞추기 퀴즈</h3>
+              <p class="text-sm text-slate-500 mt-2">문맥 속에 알맞은 표현을 퀴즈 형식으로 마스터해보세요!</p>
+            </div>
+
+            <!-- 문제 타입 설정 -->
+            <div class="grid grid-cols-2 gap-4">
+              <button onclick="setQuizType('choice')" id="btn-quiz-choice" class="p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 flex flex-col items-center justify-center space-y-2 transition">
+                <span class="text-2xl">📋</span>
+                <span class="font-bold text-emerald-950">객관식 (4지선다)</span>
+                <span class="text-xs text-slate-500">보기 보고 골라 맞추기</span>
+              </button>
+              <button onclick="setQuizType('typing')" id="btn-quiz-typing" class="p-4 rounded-2xl border-2 border-slate-200 hover:border-emerald-300 flex flex-col items-center justify-center space-y-2 transition">
+                <span class="text-2xl">⌨️</span>
+                <span class="font-bold text-slate-800">주관식 초성 타이핑</span>
+                <span class="text-xs text-slate-500">초성 힌트를 보며 타이핑</span>
+              </button>
+            </div>
+
+            <!-- 문항 수 설정 -->
+            <div class="space-y-2 text-left">
+              <label class="block text-sm font-bold text-slate-700">문제 수 선택</label>
+              <div class="grid grid-cols-4 gap-2">
+                <button onclick="setQuizCount(5)" id="btn-count-5" class="py-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 font-bold text-sm bg-white text-slate-700">5문항</button>
+                <button onclick="setQuizCount(10)" id="btn-count-10" class="py-2.5 rounded-xl border-2 border-emerald-600 font-bold text-sm bg-emerald-50 text-emerald-950">10문항</button>
+                <button onclick="setQuizCount(20)" id="btn-count-20" class="py-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 font-bold text-sm bg-white text-slate-700">20문항</button>
+                <button onclick="setQuizCount(30)" id="btn-count-30" class="py-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 font-bold text-sm bg-white text-slate-700">30문항</button>
+              </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-2xl transition shadow-md hover:shadow-lg">
+              신나게 퀴즈 시작하기 🎮
+            </button>
+          </div>
+
+          <!-- 실제 퀴즈 실행 영역 -->
+          <div id="quiz-active" class="max-w-2xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden hidden">
+            <!-- 상단 정보 및 프로그레스바 -->
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-100 flex justify-between items-center text-sm">
+              <div class="flex items-center space-x-2">
+                <span class="font-bold text-slate-700">문제 <span id="quiz-current-index">1</span> / <span id="quiz-total-index">10</span></span>
+                <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-bold" id="quiz-active-pool-badge">관용어</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full font-bold" id="quiz-score-badge">현재 0점</span>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full font-bold hidden" id="quiz-combo-badge">0 콤보! 🔥</span>
+              </div>
+            </div>
+            <!-- 실시간 프로그레스 바 -->
+            <div class="w-full bg-slate-200 h-2">
+              <div id="quiz-progress" class="bg-emerald-500 h-full transition-all duration-300" style="width: 10%"></div>
+            </div>
+
+            <!-- 문제 핵심 컨텐츠 -->
+            <div class="p-6 md:p-8 space-y-6">
+              
+              <!-- 뜻 설명 상자 -->
+              <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 text-center">
+                <span class="text-[10px] text-emerald-600 font-extrabold tracking-wider uppercase" id="quiz-meaning-tag">교과서 뜻풀이</span>
+                <h4 class="text-base md:text-lg font-bold text-slate-800 mt-1" id="quiz-meaning-text">비밀을 아주 잘 지키다</h4>
+              </div>
+
+              <!-- 문장 퀴즈 영역 (빈칸 포함) -->
+              <div class="space-y-2">
+                <span class="text-xs text-slate-400 font-bold block">상황/대화 예시</span>
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center text-base md:text-lg font-medium leading-relaxed" id="quiz-sentence-box">
+                  "민수는 <strong class="text-emerald-600 underline decoration-wavy px-2 font-bold decoration-2">[ 빈 칸 ]</strong>이니까 이 비밀을 털어놔도 될 거야."
+                </div>
+              </div>
+
+              <!-- 초성 힌트 (주관식일 때 노출) -->
+              <div id="quiz-hint-section" class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex justify-between items-center text-sm hidden">
+                <div class="flex items-center space-x-2">
+                  <span class="text-lg">💡</span>
+                  <div>
+                    <span class="text-slate-500 text-xs font-bold block">초성 힌트</span>
+                    <span class="font-extrabold text-amber-900 tracking-widest text-base" id="quiz-chosung-text">ㅇㅇ ㅁㄱㄷ</span>
+                  </div>
+                </div>
+                <button onclick="revealWordHint()" id="btn-quiz-word-hint" class="bg-amber-200 text-amber-900 font-bold px-3 py-1 rounded-lg text-xs hover:bg-amber-300 transition">한 글자 힌트 보기</button>
+              </div>
+
+              <!-- 객관식 답안 패널 -->
+              <div id="quiz-options-panel" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- 동적으로 버튼 4개 추가 -->
+              </div>
+
+              <!-- 주관식 답안 패널 -->
+              <div id="quiz-typing-panel" class="space-y-3 hidden">
+                <input type="text" id="quiz-typing-input" onkeydown="checkTypingEnter(event)" placeholder="알맞은 정답을 입력하세요 (띄어쓰기 생략 가능)" class="w-full border-2 border-slate-200 rounded-2xl p-4 text-center text-base md:text-lg font-bold focus:outline-none focus:border-emerald-500 shadow-inner">
+                <button onclick="submitTypingAnswer()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-2xl text-base shadow transition">정답 제출하기 ✔️</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 퀴즈 결과 리포트 화면 -->
+          <div id="quiz-result" class="max-w-2xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden p-8 text-center space-y-6 hidden">
+            <span class="text-6xl" id="result-emoji">🎉</span>
+            <div>
+              <h3 class="text-2xl font-extrabold text-slate-800" id="result-title">정말 완벽해요!</h3>
+              <p class="text-sm text-slate-500 mt-1">학습 결과를 함께 확인해 볼까요?</p>
+            </div>
+
+            <!-- 스코어 배지 카드 -->
+            <div class="grid grid-cols-2 gap-4 bg-slate-50 rounded-2xl p-6 border border-slate-100 max-w-md mx-auto">
+              <div class="text-center">
+                <span class="text-slate-400 text-xs font-bold">최종 점수</span>
+                <p class="text-2xl font-extrabold text-emerald-600 mt-1" id="result-score">100점</p>
+              </div>
+              <div class="text-center">
+                <span class="text-slate-400 text-xs font-bold">정답률</span>
+                <p class="text-2xl font-extrabold text-slate-800 mt-1" id="result-rate">10 / 10</p>
+              </div>
+            </div>
+
+            <!-- 학생용 퀴즈 결과 교실 제출 영역 -->
+            <div class="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 max-w-md mx-auto space-y-3">
+              <p class="text-xs text-emerald-800 font-bold">✍️ 결과를 복사하여 제출해 볼까요?</p>
+              <div class="flex gap-2">
+                <input type="text" id="quiz-student-name" placeholder="학생 이름을 입력하세요" class="flex-1 px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-center font-bold">
+                <button onclick="copyClassroomReport('quiz')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">
+                  📋 결과 복사하기
+                </button>
+              </div>
+            </div>
+
+            <!-- 오답 노트 영역 -->
+            <div id="incorrect-note-section" class="text-left space-y-3 hidden">
+              <h4 class="font-extrabold text-slate-700 text-sm">💡 다시 확인하고 보강해둘 어휘 리스트</h4>
+              <div class="border border-slate-200 rounded-2xl overflow-hidden max-h-[220px] overflow-y-auto space-y-0.5" id="incorrect-note-container">
+                <!-- 오답이 있는 경우 삽입됨 -->
+              </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 pt-4">
+              <button onclick="switchView('quiz')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-2xl transition shadow">
+                다시 시작하기 🔄
+              </button>
+              <button onclick="switchView('dashboard')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-2xl transition">
+                학습 대시보드로 돌아가기 🏠
+              </button>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- -------------------- 4. 카드 짝 맞추기 게임 뷰 -------------------- -->
+        <section id="view-matching" class="space-y-6 hidden">
+          
+          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+              <h3 class="font-bold text-slate-800 text-lg">🃏 어휘 카드 매칭 기억력 대결</h3>
+              <p class="text-xs text-slate-500">알맞은 단어와 의미 카드를 한 쌍씩 매칭하세요! 기억력이 완벽할수록 더 높은 점수를 획득합니다.</p>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="bg-slate-100 px-3 py-1.5 rounded-full text-xs font-bold text-slate-600">
+                시도 횟수: <span id="match-moves">0</span>회
+              </div>
+              <button onclick="initMatchingGame()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition">
+                카드 섞고 재도전 🔄
+              </button>
+            </div>
+          </div>
+
+          <!-- 게임 보드 영역 -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto" id="matching-board">
+            <!-- 8장의 카드가 동적으로 주입됨 -->
+          </div>
+
+          <!-- 승리 보너스 패널 -->
+          <div id="match-win-banner" class="bg-emerald-100 border-2 border-emerald-300 rounded-3xl p-6 text-center max-w-md mx-auto space-y-3 hidden">
+            <span class="text-4xl">🌟</span>
+            <h4 class="font-extrabold text-emerald-950 text-lg">축하합니다! 완벽하게 매칭했습니다!</h4>
+            <p class="text-xs text-emerald-800">풍성한 어휘력이 돋보이네요! +50 포인트를 증정해 드립니다.</p>
+            <div class="pt-2">
+              <button onclick="initMatchingGame()" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+                한번 더 대결하기 🎮
+              </button>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- -------------------- 5. 서바이벌 스피드런 뷰 -------------------- -->
+        <section id="view-speedrun" class="space-y-6 hidden">
+          
+          <!-- 게임 대기실 -->
+          <div id="speedrun-lobby" class="max-w-2xl mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-md text-center space-y-6">
+            <span class="text-6xl">⚡</span>
+            <div>
+              <h3 class="text-2xl font-extrabold text-slate-800">서바이벌 초긴박 스피드런</h3>
+              <p class="text-sm text-slate-500 mt-2">시작 시간 단 10초! 정답을 맞추면 생명 연장(+3초), 오답 시 감점(-5초)!</p>
+              <p class="text-xs text-red-500 font-bold mt-1">심장이 쫄깃해지는 찰나의 순간 동안 당신의 한계에 대항해 보세요.</p>
+            </div>
+
+            <div class="bg-red-50 p-4 rounded-2xl border border-red-100 text-left space-y-2">
+              <h4 class="font-bold text-red-950 text-xs">⚠️ 스피드런 서바이벌 원칙</h4>
+              <ul class="text-[11px] text-red-800 list-disc list-inside space-y-1 leading-relaxed">
+                <li>기본 생명 시간은 <strong>10초</strong>만 주어집니다.</li>
+                <li>정답을 빠르게 맞추면 <strong>+3초 보너스</strong>가 축적됩니다. (최대 30초 한도)</li>
+                <li>오답을 선택하면 즉시 <strong>-5초 패널티 차감</strong>이 일어납니다!</li>
+              </ul>
+            </div>
+
+            <!-- 최고 점수 정보 -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 max-w-xs mx-auto text-center">
+              <span class="text-xs text-slate-400 font-bold">역대 최고 기록</span>
+              <p class="text-lg font-extrabold text-slate-800" id="speedrun-highscore-text">0점 (0개)</p>
+            </div>
+
+            <button onclick="startSpeedRun()" class="w-full bg-red-500 hover:bg-red-600 text-white font-extrabold py-4 rounded-2xl text-base transition shadow">
+              위험천만 스피드런 시작 ⏱️
+            </button>
+          </div>
+
+          <!-- 실제 인게임 게임 화면 -->
+          <div id="speedrun-active" class="max-w-2xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden hidden">
+            <!-- 상단 바 -->
+            <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+              <div class="flex items-center space-x-3">
+                <span class="text-red-500 font-extrabold text-xl animate-pulse">⏰</span>
+                <span class="font-extrabold text-xl font-sans text-red-400" id="speedrun-timer">10s</span>
+              </div>
+              <div class="text-right flex items-center space-x-2">
+                <span class="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-bold" id="speedrun-active-pool-badge">속담</span>
+                <div>
+                  <span class="text-[9px] text-slate-400 block font-bold">현재 점수</span>
+                  <span class="font-extrabold text-lg text-yellow-300 animate-pulse" id="speedrun-current-score">0점</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 프로그레스 타이머 -->
+            <div class="w-full bg-slate-700 h-2">
+              <div id="speedrun-time-bar" class="bg-red-500 h-full transition-all duration-100" style="width: 33.3%"></div>
+            </div>
+
+            <!-- 콤보 디스플레이 -->
+            <div class="text-center py-2 h-10 bg-slate-50 border-b border-slate-100">
+              <span id="speedrun-combo-text" class="text-sm font-extrabold text-amber-600 hidden">🔥 5 콤보 연속 돌파!</span>
+            </div>
+
+            <!-- 문제 바디 -->
+            <div class="p-6 md:p-8 space-y-6">
+              <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200 text-center min-h-[90px] flex flex-col justify-center">
+                <span class="text-[10px] text-slate-400 font-bold block mb-1" id="speedrun-pool-type-tag">이 뜻에 가장 적합한 속담은?</span>
+                <h4 class="text-base md:text-lg font-bold text-slate-800" id="speedrun-meaning">비밀을 잘 지키다</h4>
+              </div>
+
+              <!-- 4지선다형 버튼 보드 -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="speedrun-options">
+                <!-- 무작위 보기 주입 -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 결과창 -->
+          <div id="speedrun-result" class="max-w-2xl mx-auto bg-white p-8 rounded-3xl border border-slate-200 shadow-md text-center space-y-6 hidden">
+            <span class="text-6xl">⏱️</span>
+            <div>
+              <h3 class="text-2xl font-extrabold text-red-600">시간 초과! 타임오프</h3>
+              <p class="text-sm text-slate-500 mt-1">심장이 조여드는 치열한 한판 승부였습니다.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100 max-w-sm mx-auto">
+              <div>
+                <span class="text-xs text-slate-400 font-bold">최종 점수</span>
+                <p class="text-2xl font-extrabold text-emerald-600 mt-1" id="speedrun-result-score">120점</p>
+              </div>
+              <div>
+                <span class="text-xs text-slate-400 font-bold">정답 수</span>
+                <p class="text-2xl font-extrabold text-slate-800 mt-1" id="speedrun-result-correct">12개</p>
+              </div>
+            </div>
+
+            <!-- 학생용 스피드런 결과 교실 제출 영역 -->
+            <div class="bg-red-50 rounded-2xl p-4 border border-red-100 max-w-sm mx-auto space-y-3">
+              <p class="text-xs text-red-800 font-bold">⚡ 결과를 교실에 제출해 볼까요?</p>
+              <div class="flex gap-2">
+                <input type="text" id="speedrun-student-name" placeholder="이름을 적어주세요" class="flex-1 px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-red-500 text-center font-bold">
+                <button onclick="copyClassroomReport('speedrun')" class="bg-red-500 hover:bg-red-600 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">
+                  📋 복사하기
+                </button>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <button onclick="switchView('speedrun')" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-3.5 rounded-2xl transition">
+                다시 도전하기 🔄
+              </button>
+              <button onclick="switchView('dashboard')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3.5 rounded-2xl transition">
+                대시보드로 이동 🏠
+              </button>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- 토스트 알림 컴포넌트 -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+    <span id="toast-emoji">⭐</span>
+    <span id="toast-message" class="text-sm font-semibold">설정이 완벽하게 적용되었습니다.</span>
+  </div>
+
+  <!-- 데이터베이스 및 게임 핵심 로직 엔진 -->
+  <script>
+    // -------------------------------------------------------------
+    // 1. 관용구(150개) + 속담(100개) 통합 대형 DB
+    // -------------------------------------------------------------
+    const masterDatabase = [
+      // === 관용어 데이터베이스 (150개) ===
+      { id: 1, type: "idiom", phrase: "발등에 불이 떨어지다", meaning: "일이 매우 급박해지다", example: "숙제를 미루다 보니 이제 진짜 발등에 불이 떨어졌어.", category: "발" },
+      { id: 2, type: "idiom", phrase: "입이 무겁다", meaning: "비밀을 잘 지키다", example: "민수는 입이 무거우니 이 고민을 털어놔도 될 거야.", category: "입" },
+      { id: 3, type: "idiom", phrase: "입이 가볍다", meaning: "비밀을 쉽게 퍼뜨리다", example: "너 정말 입이 가볍구나! 그걸 다 말하면 어떡해?", category: "입" },
+      { id: 4, type: "idiom", phrase: "눈이 높다", meaning: "안목이나 기준이 높다", example: "넌 신발 고르는 기준이 까다로운 걸 보니 눈이 높구나.", category: "눈" },
+      { id: 5, type: "idiom", phrase: "귀가 얇다", meaning: "남의 말을 쉽게 믿다", example: "난 귀가 얇아서 친구가 좋다고 하면 다 사고 싶어져.", category: "귀" },
+      { id: 6, type: "idiom", phrase: "손이 크다", meaning: "씀씀이나 양이 넉넉하다", example: "우리 할머니는 손이 크셔서 항상 음식을 산더미처럼 해주셔.", category: "손" },
+      { id: 7, type: "idiom", phrase: "발이 넓다", meaning: "아는 사람이 많다", example: "지민이는 발이 넓어서 옆 반 친구들 이름도 다 알더라.", category: "발" },
+      { id: 8, type: "idiom", phrase: "눈독을 들이다", meaning: "몹시 탐을 내다", example: "내 동생이 아까부터 내 장난감에 눈독을 들이고 있어.", category: "눈" },
+      { id: 9, type: "idiom", phrase: "눈코 뜰 새 없다", meaning: "정신없이 매우 바쁘다", example: "요즘 학원 숙제가 많아서 눈코 뜰 새 없이 바빠.", category: "눈" },
+      { id: 10, type: "idiom", phrase: "미역국을 먹다", meaning: "시험에서 떨어지다", example: "공부를 하나도 안 하더니 이번에도 결국 미역국 먹었네.", category: "기타" },
+      { id: 11, type: "idiom", phrase: "바가지를 쓰다", meaning: "물건을 비싸게 사다", example: "천 원짜리 젤리를 삼천 원에 사다니, 완전 바가지 썼다!", category: "기타" },
+      { id: 12, type: "idiom", phrase: "고개를 끄덕이다", meaning: "수긍하거나 찬성하다", example: "내 제안을 듣더니 친구들이 모두 고개를 끄덕였어.", category: "머리/얼굴" },
+      { id: 13, type: "idiom", phrase: "콧대가 높다", meaning: "잘난 체하며 거만하다", example: "그 친구는 실력은 좋지만 콧대가 높아서 다가가기 힘들어.", category: "코" },
+      { id: 14, type: "idiom", phrase: "콧대를 꺾다", meaning: "상대방의 기를 죽이다", example: "상대 팀의 콧대를 꺾어 놓으려고 열심히 연습했어.", category: "코" },
+      { id: 15, type: "idiom", phrase: "입이 짧다", meaning: "음식을 가려 먹거나 적게 먹음", example: "우리 집 강아지는 입이 짧아서 사료를 조금만 먹어.", category: "입" },
+      { id: 16, type: "idiom", phrase: "손을 씻다", meaning: "나쁜 일을 그만두다", example: "그 형은 이제 괴롭히는 일을 그만두고 손을 씻었다.", category: "손" },
+      { id: 17, type: "idiom", phrase: "낯이 익다", meaning: "전에 본 적이 있는 것 같다", example: "저 분은 처음 뵙는데 왠지 낯이 익어서 아는 분 같아.", category: "머리/얼굴" },
+      { id: 18, type: "idiom", phrase: "목이 빠지다", meaning: "몹시 애타게 기다리다", example: "나는 택배 아저씨가 오기를 목이 빠지게 기다렸어.", category: "머리/얼굴" },
+      { id: 19, type: "idiom", phrase: "어깨가 무겁다", meaning: "책임이나 부담이 크다", example: "우리 학급을 잘 이끌어야 한다는 생각에 어깨가 무거워.", category: "머리/얼굴" },
+      { id: 20, type: "idiom", phrase: "가슴이 뜨끔하다", meaning: "잘못이 생각나 두려워지다", example: "선생님께서 이름을 부르셨을 때, 가슴이 뜨끔했어.", category: "가슴/속" },
+      { id: 21, type: "idiom", phrase: "입이 귀에 걸리다", meaning: "너무 좋아서 싱글벙글하다", example: "생일 선물을 받더니 입이 귀에 걸려서 내려올 줄 모르네.", category: "입" },
+      { id: 22, type: "idiom", phrase: "귀를 기울이다", meaning: "주의 깊게 듣다", example: "상대방의 고민을 들을 때는 귀를 기울여 들어줘야 해.", category: "귀" },
+      { id: 23, type: "idiom", phrase: "한눈을 팔다", meaning: "딴 곳에 정신을 팔다", example: "수업 시간에는 한눈팔지 말고 칠판을 봐야 해.", category: "눈" },
+      { id: 24, type: "idiom", phrase: "머리를 맞대다", meaning: "서로 의논하다", example: "우리는 어려운 수학 문제를 풀기 위해 머리를 맞댔어.", category: "머리/얼굴" },
+      { id: 25, type: "idiom", phrase: "색안경을 끼다", meaning: "편견을 가지고 보다", example: "외모만 보고 무서운 친구라고 색안경 끼고 보지 마.", category: "눈" },
+      { id: 26, type: "idiom", phrase: "쥐구멍을 찾다", meaning: "부끄러워 숨고 싶다", example: "발표하다가 방귀를 뀌어서 정말 쥐구멍이라도 찾고 싶었어.", category: "기타" },
+      { id: 27, type: "idiom", phrase: "코앞에 닥치다", meaning: "일이 매우 가까워지다", example: "어느덧 단원 평가가 코앞에 닥쳐서 마음이 급해.", category: "코" },
+      { id: 28, type: "idiom", phrase: "손발이 맞다", meaning: "호흡이 잘 맞다", example: "우리 모둠은 손발이 척척 맞아서 포스터를 금방 완성했어.", category: "손" },
+      { id: 29, type: "idiom", phrase: "찬물을 끼얹다", meaning: "분위기를 망치다", example: "다들 신나게 노는데 누가 공부 얘기해서 찬물을 끼얹었어.", category: "기타" },
+      { id: 30, type: "idiom", phrase: "시동을 걸다", meaning: "어떤 일을 시작하다", example: "방학이 끝났으니 이제 다시 공부에 시동을 걸어볼까?", category: "기타" },
+      { id: 31, type: "idiom", phrase: "눈에 띄다", meaning: "두드러지게 드러나다", example: "지우는 키가 커서 멀리서도 금방 눈에 띄어.", category: "눈" },
+      { id: 32, type: "idiom", phrase: "눈을 감아 주다", meaning: "잘못을 모르는 척해주다", example: "이번 실수는 내가 한 번만 눈감아 줄게. 다음엔 조심해.", category: "눈" },
+      { id: 33, type: "idiom", phrase: "눈밖에 나다", meaning: "신용을 잃고 미움을 사다", example: "자꾸 거짓말을 하면 선생님 눈밖에 날 수도 있어.", category: "눈" },
+      { id: 34, type: "idiom", phrase: "눈앞이 캄캄하다", meaning: "앞일이 막막하다", example: "길 한복판에서 지갑을 잃어버리니 눈앞이 캄캄했어.", category: "눈" },
+      { id: 35, type: "idiom", phrase: "눈이 뒤집히다", meaning: "이성을 잃다", example: "동생이 내 아끼는 카드를 찢자 화가 나서 눈이 뒤집혔어.", category: "눈" },
+      { id: 36, type: "idiom", phrase: "눈길을 끌다", meaning: "관심을 사다", example: "그 영화 예고편은 화려한 영상미로 사람들의 눈길을 끌었어.", category: "눈" },
+      { id: 37, type: "idiom", phrase: "눈 하나 깜짝 안 하다", meaning: "조금도 동요하지 않다", example: "민준이는 무서운 얘기를 들어도 눈 하나 깜짝 안해.", category: "눈" },
+      { id: 38, type: "idiom", phrase: "코를 빠뜨리다", meaning: "다 되어 가는 일을 망치다", example: "내가 마지막 문제를 틀려서 코를 빠뜨리고 말았네.", category: "코" },
+      { id: 39, type: "idiom", phrase: "머리를 짜내다", meaning: "애써서 생각하다", example: "좋은 아이디어를 내려고 모둠원끼리 머리를 짜냈어.", category: "머리/얼굴" },
+      { id: 40, type: "idiom", phrase: "얼굴이 두껍다", meaning: "뻔뻔하다", example: "새치기를 하고도 미안하다는 말도 안 하다니 참 얼굴이 두껍네.", category: "머리/얼굴" },
+      { id: 41, type: "idiom", phrase: "목을 축이다", meaning: "물을 마시다", example: "축구가 끝나고 시원한 물로 목을 축이니 살 것 같아.", category: "머리/얼굴" },
+      { id: 42, type: "idiom", phrase: "어깨를 나란히 하다", meaning: "실력이 비슷해지다", example: "나도 언젠가는 국가대표와 어깨를 나란히 하고 싶어.", category: "머리/얼굴" },
+      { id: 43, type: "idiom", phrase: "가슴에 새기다", meaning: "잊지 않게 기억하다", example: "부모님의 말씀을 가슴에 새기고 훌륭한 사람이 될 거야.", category: "가슴/속" },
+      { id: 44, type: "idiom", phrase: "가슴이 벅차다", meaning: "기쁨이 넘치다", example: "우승 상장을 받는 순간 정말 가슴이 벅차올랐어.", category: "가슴/속" },
+      { id: 45, type: "idiom", phrase: "손에 잡히지 않다", meaning: "일이 안 되다", example: "놀러 갈 생각에 공부가 도무지 손에 잡히지 않아.", category: "손" },
+      { id: 46, type: "idiom", phrase: "손을 벌리다", meaning: "도움을 청하다", example: "이제 나도 어른이니 부모님께 손 벌리지 않을 거야.", category: "손" },
+      { id: 47, type: "idiom", phrase: "발을 벗고 나서다", meaning: "적극적으로 돕다", example: "지호는 전학생의 적응을 돕는 데 발 벗고 나섰어.", category: "발" },
+      { id: 48, type: "idiom", phrase: "발을 끊다", meaning: "왕래를 멈추다", example: "단골이었던 떡볶이집이 맛이 변해서 아예 발을 끊었어.", category: "발" },
+      { id: 49, type: "idiom", phrase: "뼈를 깎다", meaning: "힘든 고통을 견디다", example: "뼈를 깎는 노력 끝에 마침내 피아노 연주를 완성했어.", category: "가슴/속" },
+      { id: 50, type: "idiom", phrase: "입을 모으다", meaning: "같은 의견을 말하다", example: "반 친구들 모두가 현장체험학습이 즐거웠다고 입을 모았어.", category: "입" },
+      { id: 51, type: "idiom", phrase: "입에 침이 마르다", meaning: "칭찬을 아주 많이 하다", example: "삼촌은 내 그림을 입에 침이 마르도록 칭찬해 주셨어.", category: "입" },
+      { id: 52, type: "idiom", phrase: "입맛이 쓰다", meaning: "기분이 안 좋다", example: "열심히 준비한 대회가 취소되자 입맛이 썼어.", category: "입" },
+      { id: 53, type: "idiom", phrase: "귀에 못이 박히다", meaning: "같은 말을 여러 번 듣다", example: "공부하라는 소리는 아주 귀에 못이 박히게 들었어.", category: "귀" },
+      { id: 54, type: "idiom", phrase: "귀가 번쩍 뜨이다", meaning: "솔깃한 말을 듣다", example: "내일 학교 안 가도 된다는 말에 귀가 번쩍 뜨였어.", category: "귀" },
+      { id: 55, type: "idiom", phrase: "귀를 의심하다", meaning: "믿기 어려워하다", example: "내가 1등이라니? 내 귀를 의심할 만큼 놀라웠어.", category: "귀" },
+      { id: 56, type: "idiom", phrase: "코가 납작해지다", meaning: "기세가 꺾이다", example: "실력을 뽐내던 영수가 이번 경기에서 지자 코가 납작해졌어.", category: "코" },
+      { id: 57, type: "idiom", phrase: "머리가 무겁다", meaning: "기분이 상쾌하지 않다", example: "잠을 못 잤더니 아침부터 머리가 무거워.", category: "머리/얼굴" },
+      { id: 58, type: "idiom", phrase: "머리를 식히다", meaning: "긴장을 풀고 쉬다", example: "공부하다가 잠깐 산책하면서 머리를 식히고 올게.", category: "머리/얼굴" },
+      { id: 59, type: "idiom", phrase: "얼굴을 붉히다", meaning: "화가 나다", example: "친한 친구끼리 사소한 오해로 얼굴 붉히지 말자.", category: "머리/얼굴" },
+      { id: 60, type: "idiom", phrase: "목소리를 높이다", meaning: "주장을 강하게 하다", example: "우리는 환경 보호의 중요성에 대해 목소리를 높였어.", category: "머리/얼굴" },
+      { id: 61, type: "idiom", phrase: "어깨를 으쓱하다", meaning: "우쭐해지다", example: "백 점을 맞은 지우는 어깨를 으쓱하며 성적표를 보여줬어.", category: "머리/얼굴" },
+      { id: 62, type: "idiom", phrase: "가슴을 치다", meaning: "답답하거나 후회하다", example: "그때 조금만 더 참을걸 하고 가슴을 치며 후회했어.", category: "가슴/속" },
+      { id: 63, type: "idiom", phrase: "가슴을 쓸어내리다", meaning: "안심하다", example: "잃어버린 줄 알았던 휴대폰을 찾아서 가슴을 쓸어내렸어.", category: "가슴/속" },
+      { id: 64, type: "idiom", phrase: "손을 떼다", meaning: "하던 일을 그만두다", example: "이제 모둠 과제가 끝났으니 나는 이 일에서 손을 뗄게.", category: "손" },
+      { id: 65, type: "idiom", phrase: "손에 땀을 쥐다", meaning: "몹시 긴장하다", example: "축구 승부차기 장면은 정말 손에 땀을 쥐게 했어.", category: "손" },
+      { id: 66, type: "idiom", phrase: "발을 담그다", meaning: "관계를 맺다", example: "나도 이제 밴드부 활동에 본격적으로 발을 담갔어.", category: "발" },
+      { id: 67, type: "idiom", phrase: "발목을 잡다", meaning: "어떤 일에 얽매이다", example: "갑작스러운 감기가 내 우승 후보 발목을 잡았어.", category: "발" },
+      { id: 68, type: "idiom", phrase: "간을 녹이다", meaning: "마음을 사로잡다", example: "그 가수의 감미로운 노래는 팬들의 간을 녹였어.", category: "가슴/속" },
+      { id: 69, type: "idiom", phrase: "바람을 넣다", meaning: "남을 부추기다", example: "친구들이 옆에서 새 옷 사라고 자꾸 바람을 넣네.", category: "기타" },
+      { id: 70, type: "idiom", phrase: "찬밥 신세가 되다", meaning: "소외당하다", example: "동생이 태어난 뒤로 나는 집에서 찬밥 신세가 된 것 같아.", category: "기타" },
+      { id: 71, type: "idiom", phrase: "고춧가루를 뿌리다", meaning: "일을 방해하다", example: "다 결정된 일에 갑자기 못 한다고 해서 고춧가루 뿌리지 마.", category: "기타" },
+      { id: 72, type: "idiom", phrase: "딴지를 걸다", meaning: "훼방을 놓다", example: "내가 발표할 때마다 지수가 자꾸 딴지를 걸어서 속상해.", category: "기타" },
+      { id: 73, type: "idiom", phrase: "뒤통수를 맞다", meaning: "배신당하다", example: "가장 믿었던 친구에게 뒤통수를 맞아서 너무 충격이야.", category: "머리/얼굴" },
+      { id: 74, type: "idiom", phrase: "허리가 휘다", meaning: "부담이 너무 크다", example: "부모님은 우리 남매 학원비 대시느라 허리가 휘신대.", category: "기타" },
+      { id: 75, type: "idiom", phrase: "가닥을 잡다", meaning: "실마리를 찾다", example: "복잡했던 수학 문제가 이제야 풀이 가닥이 잡히네.", category: "기타" },
+      { id: 76, type: "idiom", phrase: "꼬리를 밟히다", meaning: "단서가 드러나다", example: "동생이 흘린 과자 가루 때문에 꼬리를 밟혔어.", category: "기타" },
+      { id: 77, type: "idiom", phrase: "물 건너가다", meaning: "희망이 없다", example: "비가 이렇게 쏟아지니 오늘 축구 시합은 물 건너갔네.", category: "기타" },
+      { id: 78, type: "idiom", phrase: "가방줄이 길다", meaning: "학력이 높다", example: "그 선생님은 가방줄이 길어서 그런지 아는 게 정말 많으셔.", category: "기타" },
+      { id: 79, type: "idiom", phrase: "오지랖이 넓다", meaning: "참견이 많다", example: "내 숙제까지 걱정해 주다니, 넌 정말 오지랖이 넓구나.", category: "기타" },
+      { id: 80, type: "idiom", phrase: "한솥밥을 먹다", meaning: "같이 지내다", example: "우리는 6학년 1반에서 1년 동안 한솥밥 먹는 가족이야.", category: "기타" },
+      { id: 81, type: "idiom", phrase: "발을 묶다", meaning: "활동을 제한하다", example: "이번 폭설이 마을 사람들의 발을 꽁꽁 묶었어.", category: "발" },
+      { id: 82, type: "idiom", phrase: "담을 쌓다", meaning: "관심을 끊다", example: "나는 수학이랑은 벌써 담을 쌓고 지내서 하나도 몰라.", category: "기타" },
+      { id: 83, type: "idiom", phrase: "골머리를 앓다", meaning: "고민하다", example: "쓰레기 분리배출 문제로 동네 어른들이 골머리를 앓고 계셔.", category: "머리/얼굴" },
+      { id: 84, type: "idiom", phrase: "입맛을 다시다", meaning: "욕심을 내다", example: "옆 친구가 먹는 피자를 보고 나도 모르게 입맛을 다셨어.", category: "입" },
+      { id: 85, type: "idiom", phrase: "손가락질을 받다", meaning: "비난을 듣다", example: "남의 물건을 훔치는 나쁜 짓을 하면 손가락질을 받게 돼.", category: "손" },
+      { id: 86, type: "idiom", phrase: "가슴이 미어지다", meaning: "너무 슬프다", example: "잃어버린 강아지의 소식을 듣고 엄마는 가슴이 미어지셨다.", category: "가슴/속" },
+      { id: 87, type: "idiom", phrase: "등을 돌리다", meaning: "관계를 끊다", example: "사소한 말다툼 때문에 친한 친구가 나에게 등을 돌렸어.", category: "머리/얼굴" },
+      { id: 88, type: "idiom", phrase: "코가 꿰이다", meaning: "약점이 잡히다", example: "비밀을 들킨 뒤로 걔 심부름만 하느라 코가 꿰였어.", category: "코" },
+      { id: 89, type: "idiom", phrase: "귀가 가렵다", meaning: "남이 내 얘길 함", example: "오늘따라 왜 이렇게 귀가 가렵지? 누가 내 욕하나?", category: "귀" },
+      { id: 90, type: "idiom", phrase: "입을 다물다", meaning: "말을 하지 않다", example: "그날 본 일은 아무에게도 말하지 말고 입 꾹 다물고 있어.", category: "입" },
+      { id: 91, type: "idiom", phrase: "머리를 굴리다", meaning: "꾀를 부리다", example: "공부 안 하고 놀 방법만 머리를 굴리면 안 돼.", category: "머리/얼굴" },
+      { id: 92, type: "idiom", phrase: "손을 맞잡다", meaning: "협력하다", example: "두 반이 손을 맞잡고 이번 운동회를 준비하기로 했어.", category: "손" },
+      { id: 93, type: "idiom", phrase: "발을 붙이다", meaning: "정착하다", example: "전학생인 민수도 이제 학급에 발을 붙이고 잘 지내고 있어.", category: "발" },
+      { id: 94, type: "idiom", phrase: "허파에 바람이 들다", meaning: "자꾸 웃다", example: "뭐가 그렇게 웃기니? 허파에 바람 든 사람처럼 계속 웃네.", category: "가슴/속" },
+      { id: 95, type: "idiom", phrase: "뼈가 있다", meaning: "숨은 뜻이 있다", example: "친구가 하는 칭찬 같지만 왠지 그 말속에 뼈가 있는 것 같아.", category: "가슴/속" },
+      { id: 96, type: "idiom", phrase: "피가 마르다", meaning: "초조하다", example: "축구 결승전 결과를 기다리는데 피가 마르는 것 같았어.", category: "가슴/속" },
+      { id: 97, type: "idiom", phrase: "기를 살리다", meaning: "자신감을 주다", example: "선생님의 칭찬 한마디가 내 기를 팍팍 살려주셨어.", category: "기타" },
+      { id: 98, type: "idiom", phrase: "맥을 잡다", meaning: "핵심을 파악하다", example: "수업 내용을 잘 들어야 공부의 맥을 제대로 잡을 수 있어.", category: "기타" },
+      { id: 99, type: "idiom", phrase: "딴청을 피우다", meaning: "딴짓을 하다", example: "엄마가 부르시는데 지호는 게임하느라 딴청을 피웠어.", category: "기타" },
+      { id: 100, type: "idiom", phrase: "물망에 오르다", meaning: "후보로 거론되다", example: "이번 전교 회장 후보에 우리 반 영희가 물망에 올랐어.", category: "기타" },
+      { id: 101, type: "idiom", phrase: "눈살을 찌푸리다", meaning: "못마땅해하다", example: "복도에서 시끄럽게 떠드는 소리에 사람들이 눈살을 찌푸렸어.", category: "눈" },
+      { id: 102, type: "idiom", phrase: "입에 발린 소리를 하다", meaning: "아부하는 말", example: "마음에도 없는 입에 발린 소리는 이제 그만해.", category: "입" },
+      { id: 103, type: "idiom", phrase: "손꼽아 기다리다", meaning: "간절히 기다리다", example: "우리는 여름방학이 오기만을 손꼽아 기다리고 있어.", category: "손" },
+      { id: 104, type: "idiom", phrase: "못을 박다", meaning: "상처를 주다", example: "친구의 외모를 비하하는 말은 친구 마음에 못을 박는 거야.", category: "기타" },
+      { id: 105, type: "idiom", phrase: "파리를 날리다", meaning: "한산하다", example: "새로 생긴 식당인데 맛이 없는지 맨날 파리만 날리네.", category: "기타" },
+      { id: 106, type: "idiom", phrase: "다리를 놓다", meaning: "연결해주다", example: "내가 둘이 화해할 수 있게 중간에서 다리를 놓아줄게.", category: "기타" },
+      { id: 107, type: "idiom", phrase: "시치미를 떼다", meaning: "모르는 척하다", example: "네가 사탕 먹은 거 다 아는데 왜 자꾸 시치미를 떼니?", category: "기타" },
+      { id: 108, type: "idiom", phrase: "바람을 맞다", meaning: "상대가 안 나타남", example: "친구랑 만나기로 했는데 30분째 안 와서 바람 맞았어.", category: "기타" },
+      { id: 109, type: "idiom", phrase: "속을 태우다", meaning: "걱정하다", example: "성적표가 늦게 나오는 바람에 며칠 동안 속을 태웠어.", category: "가슴/속" },
+      { id: 110, type: "idiom", phrase: "기를 꺾다", meaning: "의욕을 없애다", example: "실패했다고 해서 기죽지 마. 누가 네 기를 꺾을 수 있겠어?", category: "기타" },
+      { id: 111, type: "idiom", phrase: "맥이 빠지다", meaning: "기운이 없어지다", example: "다 이긴 줄 알았던 경기에서 역전당하니 정말 맥이 빠지더라.", category: "기타" },
+      { id: 112, type: "idiom", phrase: "꼬리를 내리다", meaning: "굴복하다", example: "당당하던 도둑이 증거를 보여주자 금세 꼬리를 내렸어.", category: "기타" },
+      { id: 113, type: "idiom", phrase: "기를 펴다", meaning: "당당해지다", example: "이번 시험에서 좋은 성적을 받아서 부모님 앞에서 기를 폈어.", category: "기타" },
+      { id: 114, type: "idiom", phrase: "가시 방석에 앉다", meaning: "불안하고 불편하다", example: "거짓말을 하고 앉아 있으려니 가시 방석에 앉은 것 같아.", category: "기타" },
+      { id: 115, type: "idiom", phrase: "진땀을 빼다", meaning: "몹시 애를 쓰다", example: "어려운 수학 문제를 푸느라 수업 시간 내내 진땀을 뺐어.", category: "기타" },
+      { id: 116, type: "idiom", phrase: "배를 불리다", meaning: "이익만 챙기다", example: "모둠 점수를 위해 다 같이 노력해야지 혼자서만 배불리면 안 돼.", category: "가슴/속" },
+      { id: 117, type: "idiom", phrase: "무릎을 치다", meaning: "생각이 떠오르다", example: "아! 하고 무릎을 치며 잃어버린 열쇠의 위치를 떠올렸어.", category: "기타" },
+      { id: 118, type: "idiom", phrase: "뒷짐을 지다", meaning: "방관하다", example: "친구가 짐을 나르는데 뒷짐 지고 구경만 하면 어떡하니?", category: "손" },
+      { id: 119, type: "idiom", phrase: "박자를 맞추다", meaning: "호응하다", example: "내가 농담을 할 때마다 친구들이 박자를 잘 맞춰줘서 신나.", category: "기타" },
+      { id: 120, type: "idiom", phrase: "물불을 가리지 않다", meaning: "위험을 무릅쓰다", example: "그는 사람을 구하기 위해 물불 가리지 않고 불 속으로 들어갔어.", category: "기타" },
+      { id: 121, type: "idiom", phrase: "진흙탕 싸움을 벌이다", meaning: "볼썽사나운 싸움", example: "사소한 일로 친구들끼리 진흙탕 싸움을 벌여서 분위기가 안 좋아.", category: "기타" },
+      { id: 122, type: "idiom", phrase: "입에 풀칠하다", meaning: "겨우 먹고살다", example: "옛날에는 너무 가난해서 입에 풀칠하기도 힘들었다.", category: "입" },
+      { id: 123, type: "idiom", phrase: "손발이 묶이다", meaning: "자유를 뺏기다", example: "외출 금지 벌을 받아서 이번 주말엔 손발이 묶인 셈이야.", category: "손" },
+      { id: 124, type: "idiom", phrase: "간이 붓다", meaning: "대담하게 행동하다", example: "선생님 앞에서 그런 장난을 치다니, 너 정말 간이 부었구나.", category: "가슴/속" },
+      { id: 125, type: "idiom", phrase: "등을 떠밀다", meaning: "억지로 하게 하다", example: "하기 싫다는 친구를 억지로 등 떠밀어서 발표하게 하지 마.", category: "머리/얼굴" },
+      { id: 126, type: "idiom", phrase: "코를 납작하게 만들다", meaning: "기를 꺾다", example: "우리가 이번 경기에서 이겨서 저 팀의 코를 납작하게 만들자.", category: "코" },
+      { id: 127, type: "idiom", phrase: "귀를 씻다", meaning: "기분 나쁜 말을 들음", example: "험담을 듣고 나니 기분이 나빠서 귀를 씻고 싶을 정도야.", category: "귀" },
+      { id: 128, type: "idiom", phrase: "입이 벌어지다", meaning: "놀라거나 좋아함", example: "생일 파티 규모가 너무 커서 보자마자 입이 떡 벌어졌어.", category: "입" },
+      { id: 129, type: "idiom", phrase: "머리가 돌다", meaning: "정신이 혼란스럽다", example: "갑자기 너무 많은 일이 생기니까 머리가 돌 지경이야.", category: "머리/얼굴" },
+      { id: 130, type: "idiom", phrase: "손바닥 뒤집듯 하다", meaning: "태도를 쉽게 바꿈", example: "그 친구는 약속을 손바닥 뒤집듯 자주 어겨서 믿음이 안 가.", category: "손" },
+      { id: 131, type: "idiom", phrase: "속이 타다", meaning: "괴롭다", example: "아이가 늦게까지 집에 안 오니 부모님은 속이 타신대.", category: "가슴/속" },
+      { id: 132, type: "idiom", phrase: "살을 붙이다", meaning: "내용을 보충하다", example: "글의 뼈대를 다 잡았으니 이제 내용을 풍성하게 살을 붙여봐.", category: "기타" },
+      { id: 133, type: "idiom", phrase: "피를 말리다", meaning: "고통을 주다", example: "숙제 검사를 기다리는 그 짧은 시간이 내 피를 말렸어.", category: "가슴/속" },
+      { id: 134, type: "idiom", phrase: "바람을 타다", meaning: "기세를 타고 잘됨", example: "우리 반의 유행이 바람을 타고 전교로 퍼져나갔어.", category: "기타" },
+      { id: 135, type: "idiom", phrase: "침을 삼키다", meaning: "몹시 탐내다", example: "맛있는 케이크를 보고 나도 모르게 꿀꺽 침을 삼켰어.", category: "입" },
+      { id: 136, type: "idiom", phrase: "눈앞에 아른거리다", meaning: "자꾸 생각나다", example: "아까 본 예쁜 인형이 계속 눈앞에 아른거려.", category: "눈" },
+      { id: 137, type: "idiom", phrase: "입을 맞추다", meaning: "말을 맞추다", example: "깜짝 파티를 준비하려고 우리는 미리 입을 맞췄어.", category: "입" },
+      { id: 138, type: "idiom", phrase: "발을 맞추다", meaning: "목표를 통일하다", example: "우리는 합창 대회를 위해 서로의 노랫소리에 발을 맞췄어.", category: "발" },
+      { id: 139, type: "idiom", phrase: "눈이 많다", meaning: "보는 사람이 많다", example: "여기는 눈이 많으니 나중에 조용한 곳에서 다시 이야기하자.", category: "눈" },
+      { id: 140, type: "idiom", phrase: "눈을 붙이다", meaning: "잠을 자다", example: "어제 숙제하느라 밤을 새웠더니 10분만 눈 좀 붙여야겠어.", category: "눈" },
+      { id: 141, type: "idiom", phrase: "입에 거품을 물다", meaning: "몹시 흥분하여 말하다", example: "민준이는 좋아하는 게임 이야기를 할 때면 입에 거품을 물어.", category: "입" },
+      { id: 142, type: "idiom", phrase: "손에 익다", meaning: "일이 익숙해지다", example: "처음엔 서툴렀던 가위질도 자꾸 하다 보니 이제 손에 익었어.", category: "손" },
+      { id: 143, type: "idiom", phrase: "손을 내밀다", meaning: "도움을 요청하거나 화해를 청하다", example: "어려운 상황에 처한 친구에게 먼저 따뜻한 손을 내밀어 보자.", category: "손" },
+      { id: 144, type: "idiom", phrase: "손을 뻗치다", meaning: "영향력이나 범위를 넓히다", example: "그 회사는 이제 해외 시장까지 손을 뻗치고 있다.", category: "손" },
+      { id: 145, type: "idiom", phrase: "배가 아프다", meaning: "남이 잘되어 샘이 나다", example: "친구가 뽑기에서 희귀 카드를 뽑으니 왠지 배가 아프네.", category: "가슴/속" },
+      { id: 146, type: "idiom", phrase: "길을 재촉하다", meaning: "갈 길을 서두르다", example: "해는 벌써 지고 있는데 갈 길은 멀어서 우리는 길을 재촉했어.", category: "기타" },
+      { id: 147, type: "idiom", phrase: "발에 차이다", meaning: "흔하게 널려 있다", example: "요즘 길거리에 나가면 카페는 정말 발에 차일 정도로 많아.", category: "발" },
+      { id: 148, type: "idiom", phrase: "발이 빠르다", meaning: "소식을 빨리 알거나 조치를 빨리 취하다", example: "민수는 유행하는 소식에는 누구보다 발이 빨라.", category: "발" },
+      { id: 149, type: "idiom", phrase: "발을 빼다", meaning: "관계를 끊거나 하던 일을 그만두다", example: "나는 이번 사건에 휘말리기 싫어서 미리 발을 뺐어.", category: "발" },
+      { id: 150, type: "idiom", phrase: "발등을 찍히다", meaning: "믿었던 사람에게 배신당하다", example: "비밀을 지켜줄 줄 알았던 친구에게 발등을 찍힌 기분이야.", category: "발" },
+
+      // === 속담 데이터베이스 (100개) ===
+      { id: 201, type: "proverb", phrase: "가는 말이 고와야 오는 말이 곱다", meaning: "내가 남에게 잘해야 남도 나에게 잘한다.", example: "네가 먼저 비웃으니까 친구도 화를 내지. 가는 말이 고와야 오는 말이 고운 법이야.", category: "언행" },
+      { id: 202, type: "proverb", phrase: "가랑비에 옷 젖는 줄 모른다", meaning: "사소한 일이라도 계속되면 무시하지 못할 결과가 된다.", example: "매일 5분씩 늦더니 결국 지각 대장이 됐네. 가랑비에 옷 젖는 줄 모른다더니.", category: "생활" },
+      { id: 203, type: "proverb", phrase: "가지 많은 나무에 바람 잘 날 없다", meaning: "자식이 많거나 일이 많으면 걱정이 끊이지 않는다.", example: "동생이 넷이나 되니 집이 매일 시끄럽지? 가지 많은 나무에 바람 잘 날 없다더니 딱 그 꼴이야.", category: "가족/관계" },
+      { id: 204, type: "proverb", phrase: "간에 붙었다 쓸개에 붙었다 한다", meaning: "자기 이익을 위해 이편저편에 아부를 한다.", example: "어제는 민수 편들더니 오늘은 지후 편을 들어? 간에 붙었다 쓸개에 붙었다 하는구나.", category: "처세" },
+      { id: 205, type: "proverb", phrase: "강 건너 불구경하듯 한다", meaning: "남의 일을 자신과 상관없는 일처럼 구경만 한다.", example: "친구가 곤란해하는데 그렇게 강 건너 불구경하듯 보고만 있을 거니?", category: "처세" },
+      { id: 206, type: "proverb", phrase: "겉 다르고 속 다르다", meaning: "겉으로 드러나는 행동과 마음속 생각이 다르다.", example: "앞에서는 친한 척하더니 뒤에서는 욕을 하다니, 정말 겉 다르고 속 다른 사람이네.", category: "언행" },
+      { id: 207, type: "proverb", phrase: "계란으로 바위치기", meaning: "도저히 이길 수 없는 상대에게 무모하게 덤빈다.", example: "초보자인 네가 국가대표 선수랑 시합하는 건 계란으로 바위 치기야.", category: "노력/한계" },
+      { id: 208, type: "proverb", phrase: "고생 끝에 낙이 온다", meaning: "어려운 일을 참고 견디면 반드시 좋은 일이 생긴다.", example: "한 달 동안 연습하느라 힘들었지? 우승했으니 정말 고생 끝에 낙이 왔네.", category: "노력/한계" },
+      { id: 209, type: "proverb", phrase: "고래 싸움에 새우 등 터진다", meaning: "강한 자들의 싸움에 아무 상관없는 약자가 피해를 본다.", example: "형이랑 누나가 싸우는데 옆에 있던 내가 꾸중을 들었어. 고래 싸움에 새우 등 터진 격이지.", category: "가족/관계" },
+      { id: 210, type: "proverb", phrase: "고양이 목에 방울 달기", meaning: "실행하기 어려운 일을 헛되게 의논한다.", example: "누가 선생님께 가서 시험 미루자고 할래? 다들 겁나서 못 가니 고양이 목에 방울 달기네.", category: "처세" },
+      { id: 211, type: "proverb", phrase: "공든 탑이 무너지랴", meaning: "정성을 다해 만든 일은 쉽게 잘못되지 않는다.", example: "열심히 공부했으니 성적이 잘 나올 거야. 공든 탑이 무너지겠니?", category: "노력/한계" },
+      { id: 212, type: "proverb", phrase: "구슬이 서 말이라도 꿰어야 보배", meaning: "아무리 좋은 것이라도 쓸모있게 만들어야 가치가 있다.", example: "아이디어만 많으면 뭐 하니? 직접 써봐야지. 구슬이 서 말이라도 꿰어야 보배란다.", category: "생활" },
+      { id: 213, type: "proverb", phrase: "굴러온 돌이 박힌 돌 뺀다", meaning: "나중에 온 사람이 먼저 있던 사람을 내쫓는다.", example: "새로 온 전학생이 원래 우리 모둠장을 밀어내다니, 굴러온 돌이 박힌 돌 뺀다더니.", category: "가족/관계" },
+      { id: 214, type: "proverb", phrase: "그림의 떡", meaning: "아주 좋아 보이지만 실제로 가질 수 없다.", example: "저 최신형 컴퓨터 정말 갖고 싶지만 너무 비싸서 나한테는 그림의 떡이야.", category: "노력/한계" },
+      { id: 215, type: "proverb", phrase: "금강산도 식후경", meaning: "아무리 좋은 구경이라도 배가 불러야 즐겁다.", example: "배고파서 구경 못 하겠어. 밥부터 먹자. 금강산도 식후경이잖아.", category: "생활" },
+      { id: 216, type: "proverb", phrase: "뛰는 놈 위에 나는 놈 있다", meaning: "재주 있는 사람 위에는 더 뛰어난 사람이 있다.", example: "네가 계산을 잘한다고 자만하지 마. 뛰는 놈 위에 나는 놈 있는 법이야.", category: "노력/한계" },
+      { id: 217, type: "proverb", phrase: "길고 짧은 것은 대봐야 안다", meaning: "누가 더 나은지는 실제로 겨루어 봐야 안다.", example: "아직 결과는 몰라. 시합이 끝나봐야지. 길고 짧은 건 대봐야 아는 거야.", category: "노력/한계" },
+      { id: 218, type: "proverb", phrase: "까마귀 날자 배 떨어진다", meaning: "아무 상관 없는 일이 동시에 일어나 오해를 받는다.", example: "내가 교실에 들어가자마자 유리창이 깨졌어. 정말 까마귀 날자 배 떨어진 격이야.", category: "생활" },
+      { id: 219, type: "proverb", phrase: "꿩 대신 닭", meaning: "적당한 것이 없을 때 비슷한 것으로 대신한다.", example: "축구공이 없으니 테니스공으로라도 축구하자. 꿩 대신 닭이지 뭐.", category: "생활" },
+      { id: 220, type: "proverb", phrase: "남의 떡이 더 커 보인다", meaning: "내 것보다 남의 것이 더 좋아 보인다.", example: "내 피자도 맛있는데 네 것이 더 맛있어 보여. 정말 남의 떡이 더 커 보이나 봐.", category: "생활" },
+      { id: 221, type: "proverb", phrase: "낫 놓고 기역 자도 모른다", meaning: "아주 쉬운 글자나 상식도 모를 만큼 무식하다.", example: "칠판에 크게 적힌 글자도 못 읽다니, 낫 놓고 기역 자도 모르는구나.", category: "노력/한계" },
+      { id: 222, type: "proverb", phrase: "내 코가 석 자", meaning: "내 사정이 급해서 남을 돌볼 겨를이 없다.", example: "너 숙제 도와주고 싶지만 나도 오늘까지 제출이라 내 코가 석 자야.", category: "처세" },
+      { id: 223, type: "proverb", phrase: "누워서 떡 먹기", meaning: "일이 매우 쉽다.", example: "이 정도 수학 문제는 나한테 누워서 떡 먹기지.", category: "생활" },
+      { id: 224, type: "proverb", phrase: "누워서 침 뱉기", meaning: "남을 해치려다 결국 자기에게 해가 돌아온다.", example: "우리 반 욕을 하고 다니는 건 결국 누워서 침 뱉기랑 똑같아.", category: "언행" },
+      { id: 225, type: "proverb", phrase: "다 된 밥에 재 뿌리기", meaning: "거의 다 된 일을 마지막에 망쳐버린다.", example: "다 이긴 경기였는데 네 실수로 졌어. 다 된 밥에 재를 뿌린 셈이지.", category: "생활" },
+      { id: 226, type: "proverb", phrase: "달면 삼키고 쓰면 뱉는다", meaning: "자기에게 유리하면 취하고 불리하면 버린다.", example: "친할 때는 잘해주더니 내가 힘들어지니까 모른 척하네. 달면 삼키고 쓰면 뱉는구나.", category: "처세" },
+      { id: 227, type: "proverb", phrase: "닭 쫓던 개 지붕 쳐다본다", meaning: "애써 하던 일이 실패하여 어찌할 줄 모르고 허탈해한다.", example: "열심히 쫓아가던 버스가 그냥 가버렸어. 닭 쫓던 개 지붕 쳐다보는 기분이야.", category: "생활" },
+      { id: 228, type: "proverb", phrase: "당장 먹기엔 곶감이 달다", meaning: "나중 생각은 안 하고 당장 편한 것만 찾는다.", example: "공부 안 하고 게임만 하면 나중에 후회해. 당장 먹기엔 곶감이 달겠지만 말이야.", category: "처세" },
+      { id: 229, type: "proverb", phrase: "도둑이 제 발 저린다", meaning: "죄를 지은 사람이 마음이 불안해 스스로 드러낸다.", example: "범인이라고 하지도 않았는데 왜 화를 내? 도둑이 제 발 저린 모양이네.", category: "생활" },
+      { id: 230, type: "proverb", phrase: "돌다리도 두들겨 보고 건너라", meaning: "잘 아는 일이라도 확인하고 조심해야 한다.", example: "쉬운 문제라고 대충 풀지 마. 돌다리도 두들겨 보고 건너라고 했어.", category: "처세" },
+      { id: 231, type: "proverb", phrase: "등잔 밑이 어둡다", meaning: "가까운 곳에서 일어난 일을 오히려 모른다.", example: "안경을 머리에 쓰고 안경 어디 있냐고 찾다니, 등잔 밑이 어둡구나.", category: "생활" },
+      { id: 232, type: "proverb", phrase: "마른하늘에 날벼락", meaning: "뜻밖에 일어난 불행한 일.", example: "학교 잘 가고 있는데 갑자기 휴교라니, 마른하늘에 날벼락 같은 소리네.", category: "생활" },
+      { id: 233, type: "proverb", phrase: "말 한마디에 천 냥 빚도 갚는다", meaning: "말을 예쁘게 하면 큰 어려움도 해결할 수 있다.", example: "진심으로 사과하니까 화가 풀리네. 말 한마디에 천 냥 빚도 갚는다더니 정말이야.", category: "언행" },
+      { id: 234, type: "proverb", phrase: "매도 먼저 맞는 게 낫다", meaning: "어차피 겪어야 할 일이라면 일찍 겪는 게 마음 편하다.", example: "발표 무섭지만 그냥 내가 먼저 할게. 매도 먼저 맞는 게 낫다고 하잖아.", category: "처세" },
+      { id: 235, type: "proverb", phrase: "먼 사촌보다 가까운 이웃이 낫다", meaning: "이웃끼리 서로 돕고 사는 것이 친척보다 좋을 때가 있다.", example: "멀리 사는 삼촌보다 옆집 아주머니가 더 자주 도와주시니 먼 사촌보다 이웃이 낫네.", category: "가족/관계" },
+      { id: 236, type: "proverb", phrase: "모르는 게 약이다", meaning: "알면 오히려 걱정만 생기니 모르는 것이 나을 때가 있다.", example: "그 비밀 알면 기분만 나쁠 거야. 그냥 모르는 게 약일 수도 있어.", category: "처세" },
+      { id: 237, type: "proverb", phrase: "믿는 도끼에 발등 찍힌다", meaning: "믿었던 사람에게 배신을 당한다.", example: "내 비밀을 다 말하고 다니다니, 믿는 도끼에 발등 찍힌 기분이야.", category: "가족/관계" },
+      { id: 238, type: "proverb", phrase: "밑 빠진 독에 물 붓기", meaning: "아무리 애써도 보람이 없는 상태.", example: "공부는 안 하고 문제집만 계속 사는 건 밑 빠진 독에 물 붓기야.", category: "노력/한계" },
+      { id: 239, type: "proverb", phrase: "바늘 도둑이 소도둑 된다", meaning: "작은 나쁜 짓도 자꾸 하면 큰 범죄를 저지르게 된다.", example: "지우개 하나 빌려 가서 안 주는 버릇 고쳐야 해. 바늘 도둑이 소도둑 된다고.", category: "생활" },
+      { id: 240, type: "proverb", phrase: "배보다 배꼽이 더 크다", meaning: "주된 것보다 부수적인 것에 비용이나 노력이 더 든다.", example: "물건값은 만 원인데 배송비가 2만 원이야? 배보다 배꼽이 더 크네.", category: "생활" },
+      { id: 241, type: "proverb", phrase: "백지장도 맞들면 낫다", meaning: "쉬운 일이라도 서로 힘을 합치면 훨씬 쉽다.", example: "혼자 청소하지 말고 같이 하자. 백지장도 맞들면 낫잖아.", category: "가족/관계" },
+      { id: 242, type: "proverb", phrase: "벼는 익을수록 고개를 숙인다", meaning: "훌륭한 사람일수록 겸손하다.", example: "전교 일등인데도 자랑 한 번 안 하다니, 벼는 익을수록 고개를 숙인다더니 멋지다.", category: "언행" },
+      { id: 243, type: "proverb", phrase: "병 주고 약 준다", meaning: "해를 입힌 뒤에 도와주는 척하며 달랜다.", example: "나를 울려놓고 사탕 하나 주며 웃으라고? 지금 병 주고 약 주는 거니?", category: "가족/관계" },
+      { id: 244, type: "proverb", phrase: "보기 좋은 떡이 먹기도 좋다", meaning: "겉모양이 좋으면 내용도 좋을 가능성이 크다.", example: "노트 정리를 깔끔하게 하니 공부도 더 잘 되는 것 같아. 보기 좋은 떡이 먹기도 좋네.", category: "생활" },
+      { id: 245, type: "proverb", phrase: "불난 집에 부채질한다", meaning: "안 좋은 상황에 있는 사람에게 상황을 더 악화시킨다.", example: "울고 있는 친구한테 놀리는 말을 하다니, 불난 집에 부채질하는구나.", category: "처세" },
+      { id: 246, type: "proverb", phrase: "비 온 뒤에 땅이 굳어진다", meaning: "시련을 겪고 나면 더 강해진다.", example: "크게 싸웠지만 덕분에 서로를 더 잘 알게 됐어. 비 온 뒤에 땅이 굳어진 격이지.", category: "생활" },
+      { id: 247, type: "proverb", phrase: "사공이 많으면 배가 산으로 간다", meaning: "지시하는 사람이 너무 많으면 일이 제대로 안 된다.", example: "서로 자기 의견만 고집하니 과제가 안 끝나네. 사공이 많으면 배가 산으로 가나 봐.", category: "가족/관계" },
+      { id: 248, type: "proverb", phrase: "산 넘어 산", meaning: "갈수록 어려운 일이 생긴다.", example: "수학 숙제 끝냈더니 영어 숙제가 산더미네. 정말 산 넘어 산이야.", category: "노력/한계" },
+      { id: 249, type: "proverb", phrase: "서당개 삼 년이면 풍월을 읊는다", meaning: "어떤 분야에 오래 있으면 저절로 지식을 얻게 된다.", example: "요리사 아빠 옆에 삼 년 있었더니 계란말이는 껌이지. 서당개 삼 년이면 풍월을 읊거든.", category: "생활" },
+      { id: 250, type: "proverb", phrase: "세 살 버릇 여든까지 간다", meaning: "어릴 때 습관은 고치기 어렵다.", example: "지금부터 정리하는 습관 들여야 해. 세 살 버릇 여든까지 가니까.", category: "생활" },
+      { id: 251, type: "proverb", phrase: "소 잃고 외양간 고친다", meaning: "이미 일이 잘못된 뒤에 손을 써도 소용없다.", example: "사고 난 뒤에 조심하겠다고 하면 뭐 하니? 소 잃고 외양간 고치는 격이지.", category: "생활" },
+      { id: 252, type: "proverb", phrase: "쇠뿔도 단김에 빼라", meaning: "어떤 일을 하려고 마음먹으면 바로 실행해야 한다.", example: "체험학습 계획 세운 김에 오늘 다 끝내자. 쇠뿔도 단김에 빼라고 했잖아.", category: "처세" },
+      { id: 253, type: "proverb", phrase: "식은 죽 먹기", meaning: "아주 하기 쉬운 일.", example: "이 노래 외우는 건 나한테 식은 죽 먹기야.", category: "생활" },
+      { id: 254, type: "proverb", phrase: "십 년 공부 도로 아미타불", meaning: "오랫동안 공들인 일이 헛수고가 됨.", example: "저장을 안 해서 과제가 다 날아갔어. 십 년 공부 도로 아미타불이네.", category: "노력/한계" },
+      { id: 255, type: "proverb", phrase: "아는 길도 물어 가라", meaning: "잘 아는 일이라도 확인하고 조심해야 한다.", example: "쉬운 길이라고 방심하지 마. 아는 길도 물어 가라고 했어.", category: "처세" },
+      { id: 256, type: "proverb", phrase: "아니 땐 굴뚝에 연기 날까", meaning: "결과가 있으면 반드시 원인이 있다.", example: "소문이 나는 건 이유가 있겠지. 아니 땐 굴뚝에 연기 나겠니?", category: "생활" },
+      { id: 257, type: "proverb", phrase: "앓던 이가 빠진 것 같다", meaning: "고민하던 걱정거리가 해결되어 시원하다.", example: "어려운 수학 단평이 끝나니까 앓던 이가 빠진 것 같아.", category: "생활" },
+      { id: 258, type: "proverb", phrase: "양반은 못 된다", meaning: "어떤 사람에 대해 말하는데 마침 그 사람이 나타난다.", example: "민수 이야기 중이었는데 진짜 민수가 오네. 양반은 못 되는구나!", category: "가족/관계" },
+      { id: 259, type: "proverb", phrase: "어물전 망신은 꼴뚜기가 시킨다", meaning: "못난 사람 하나가 전체의 명예를 떨어뜨린다.", example: "네가 장난치는 바람에 우리 반 전체가 혼났잖아. 어물전 망신은 꼴뚜기가 시킨다더니.", category: "가족/관계" },
+      { id: 260, type: "proverb", phrase: "열 번 찍어 안 넘어가는 나무 없다", meaning: "여러 번 끊임없이 노력하면 결국 성공한다.", example: "거절당해도 계속 부탁해 봐. 열 번 찍어 안 넘어가는 나무 없댔어.", category: "노력/한계" },
+      { id: 261, type: "proverb", phrase: "오르지 못할 나무는 쳐다지도 마라", meaning: "자기 능력 밖의 일은 처음부터 욕심내지 마라.", example: "준비도 안 하고 전교 회장 나가는 건 무리야. 오르지 못할 나무는 쳐다지도 마.", category: "노력/한계" },
+      { id: 262, type: "proverb", phrase: "옥의 티", meaning: "아주 좋은 것에 있는 사소한 결점.", example: "오늘 발표 정말 완벽했는데 글자 하나 틀린 게 옥의 티였어.", category: "생활" },
+      { id: 263, type: "proverb", phrase: "우물 안 개구리", meaning: "넓은 세상을 모르고 자기 주변만 아는 사람.", example: "우리 학교에서만 잘한다고 뽐내지 마. 우물 안 개구리가 되면 안 돼.", category: "노력/한계" },
+      { id: 264, type: "proverb", phrase: "울며 겨자 먹기", meaning: "하기 싫은 일을 억지로 한다.", example: "방과 후 수업 듣기 싫지만 엄마가 시켜서 울며 겨자 먹기로 듣고 있어.", category: "처세" },
+      { id: 265, type: "proverb", phrase: "원수는 외나무다리에서 만난다", meaning: "피하고 싶은 사람을 피할 수 없는 곳에서 만나다.", example: "나랑 싸운 지후를 복도 끝에서 딱 마주쳤어. 원수는 외나무다리에서 만난다더니.", category: "가족/관계" },
+      { id: 266, type: "proverb", phrase: "원숭이도 나무에서 떨어진다", meaning: "전문가라도 실수할 때가 있다.", example: "받아쓰기 왕인 네가 틀리다니! 원숭이도 나무에서 떨어질 때가 있네.", category: "노력/한계" },
+      { id: 267, type: "proverb", phrase: "윗물이 맑아야 아랫물이 맑다", meaning: "윗사람이 잘해야 아랫사람도 잘하게 된다.", example: "형들이 먼저 규칙을 지켜야 동생들도 따라 하지. 윗물이 맑아야 아랫물이 맑은 법이야.", category: "가족/관계" },
+      { id: 268, type: "proverb", phrase: "이 없으면 잇몸으로 산다", meaning: "꼭 필요한 게 없어도 다른 방법으로 견딜 수 있다.", example: "가위가 없으면 손으로라도 예쁘게 찢어보자. 이 없으면 잇몸으로 사는 거지.", category: "생활" },
+      { id: 269, type: "proverb", phrase: "자다가 봉창 두드린다", meaning: "뜬금없이 엉뚱한 소리를 한다.", example: "우리 급식 이야기 중인데 갑자기 수학 숙제는 왜 물어? 자다가 봉창 두드리는 소리네.", category: "언행" },
+      { id: 270, type: "proverb", phrase: "작은 고추가 맵다", meaning: "몸집이 작아도 재주가 뛰어난 거나 야무지다.", example: "키는 제일 작은데 달리기는 1등이네? 정말 작은 고추가 맵구나.", category: "노력/한계" },
+      { id: 271, type: "proverb", phrase: "재주는 곰이 부리고 돈은 주인이 받는다", meaning: "수고는 딴 사람이 하고 이익은 엉뚱한 사람이 챙긴다.", example: "조사는 내가 다 했는데 발표한 민수만 칭찬받았어. 재주는 곰이 부리고 돈은 주인이 받은 격이야.", category: "가족/관계" },
+      { id: 272, type: "proverb", phrase: "종로에서 뺨 맞고 한강에서 화풀이한다", meaning: "엉뚱한 데서 화풀이한다.", example: "형한테 혼나놓고 왜 나한테 짜증이야? 종로에서 뺨 맞고 한강에서 화풀이하는 거니?", category: "가족/관계" },
+      { id: 273, type: "proverb", phrase: "지렁이도 밟으면 꿈틀한다", meaning: "순한 사람이라도 너무 무시하면 가만히 있지 않는다.", example: "맨날 참던 영희가 화내는 거 봤지? 지렁이도 밟으면 꿈틀하는 법이야.", category: "노력/한계" },
+      { id: 274, type: "proverb", phrase: "천 리 길도 한 걸음부터", meaning: "모든 일은 시작이 중요하다.", example: "이 두꺼운 책 언제 다 읽지? 그래도 천 리 길도 한 걸음부터니까 한 페이지만 읽어보자.", category: "노력/한계" },
+      { id: 275, type: "proverb", phrase: "첫술에 배부르랴", meaning: "처음에 바로 만족할 만한 결과를 얻기는 어렵다.", example: "처음 배운 피아노인데 벌써 잘 칠 순 없지. 첫술에 배부르겠니?", category: "노력/한계" },
+      { id: 276, type: "proverb", phrase: "칼로 물 베기", meaning: "다투어도 곧 화해하게 되는 사이(주로 부부나 형제).", example: "우리 형제는 매일 싸워도 금방 같이 놀아. 칼로 물 베기거든.", category: "가족/관계" },
+      { id: 277, type: "proverb", phrase: "콩 심은 데 콩 나고 팥 심은 데 팥 난다", meaning: "모든 일은 원인에 따른 결과가 나타난다.", example: "열심히 공부하니 점수가 잘 나왔네. 콩 심은 데 콩 나고 팥 심은 데 팥 나는 법이지.", category: "생활" },
+      { id: 278, type: "proverb", phrase: "티끌 모아 태산", meaning: "작은 것이라도 모리면 큰 것이 된다.", example: "매일 100원씩 저금했더니 만 원이 됐어! 티끌 모아 태산이라더니 기분 좋다.", category: "노력/한계" },
+      { id: 279, type: "proverb", phrase: "하늘이 무너져도 솟아날 구멍이 있다", meaning: "아무리 큰 어려움도 해결할 방법이 있다.", example: "실망하지 마. 방법이 있을 거야. 하늘이 무너져도 솟아날 구멍은 있거든.", category: "노력/한계" },
+      { id: 280, type: "proverb", phrase: "하룻강아지 범 무서운 줄 모른다", meaning: "철모르고 함부로 덤비다.", example: "축구부 형들한테 내기를 걸다니, 하룻강아지 범 무서운 줄 모르는구나.", category: "생활" },
+      { id: 281, type: "proverb", phrase: "한 귀로 듣고 한 귀로 흘린다", meaning: "남의 말을 귀담아듣지 않는다.", example: "선생님 말씀을 한 귀로 듣고 한 귀로 흘리니까 준비물을 모르지!", category: "언행" },
+      { id: 282, type: "proverb", phrase: "낮말은 새가 듣고 밤말은 쥐가 듣는다", meaning: "아무도 안 듣는 것 같아도 누군가는 듣고 있으니 항상 말을 조심해야 한다.", example: "우리끼리만 아는 비밀이라고 방심하지 마. 낮말은 새가 듣고 밤말은 쥐가 듣는다고 하잖아.", category: "언행" },
+      { id: 283, type: "proverb", phrase: "말이 씨가 된다", meaning: "늘 말하던 것이 나중에 사실로 나타날 수 있으니 나쁜 말은 피해야 한다.", example: "자꾸 '못 하겠다'고 하지 마. 말이 씨가 된다는데, 할 수 있다고 믿어보자!", category: "언행" },
+      { id: 284, type: "proverb", phrase: "호랑이도 제 말 하면 온다", meaning: "어떤 사람에 대해 말하는데 마침 그 사람이 나타난다.", example: "지우 이야기하자마자 문 열고 들어오네. 호랑이도 제 말 하면 온다더니.", category: "가족/관계" },
+      { id: 285, type: "proverb", phrase: "호랑이 굴에 들어가야 호랑이를 잡는다", meaning: "성과를 얻으려면 위험이나 어려움을 겪어야 한다.", example: "우승하고 싶으면 강한 팀이랑 시합해 봐야 해. 호랑이 굴에 들어가야 호랑이를 잡지.", category: "처세" },
+      { id: 286, type: "proverb", phrase: "혹 떼러 갔다가 혹 붙여 온다", meaning: "이익을 보려다 오히려 해를 입고 돌아온다.", example: "청소 빠지려다가 선생님께 들켜서 복도 청소까지 하게 됐어. 혹 떼러 갔다가 혹 붙여 왔네.", category: "생활" },
+      { id: 287, type: "proverb", phrase: "엎친 데 덮치다", meaning: "어렵거나 나쁜 일이 겹치어 일어나다.", example: "늦게 자서 지각할까 봐 뛰어가는데 비까지 쏟아지니, 정말 엎친 데 덮친 격이네.", category: "생활" },
+      { id: 288, type: "proverb", phrase: "개천에서 용 난다", meaning: "어려운 환경에서 훌륭한 사람이 나오다.", example: "가난한 동네에서 대통령이 나오다니 정말 개천에서 용 났네.", category: "생활" },
+      { id: 289, type: "proverb", phrase: "웃는 낯에 침 못 뱉는다", meaning: "부드럽고 웃는 얼굴로 말하는 사람에게는 화를 내기 어렵다.", example: "부탁할 때 웃으면서 친절하게 말해봐. 웃는 낯에 침 못 뱉는다고 하니 친구도 도와줄 거야.", category: "언행" },
+      { id: 290, type: "proverb", phrase: "도랑 치고 가재 잡는다", meaning: "한 가지 일을 하여 두 가지 이익을 얻는다.", example: "공원 산책하면서 쓰레기도 주웠더니 운동도 되고 마음도 뿌듯해. 도랑 치고 가재 잡았지.", category: "생활" },
+      { id: 291, type: "proverb", phrase: "마파람에 게 눈 감추듯", meaning: "음식을 매우 빨리 먹어치우는 모양.", example: "배가 많이 고팠구나? 김밥을 마파람에 게 눈 감추듯 먹어버렸네.", category: "생활" },
+      { id: 292, type: "proverb", phrase: "꿩 먹고 알 먹기", meaning: "한 가지 일로 두 가지 이득을 봄.", example: "도서관에 가서 숙제도 하고 만화책도 봤어. 꿩 먹고 알 먹기였지.", category: "생활" },
+      { id: 293, type: "proverb", phrase: "등 따습고 배부르다", meaning: "아무 걱정 없이 편안하게 살다.", example: "따뜻한 방에서 맛있는 귤 까먹으니 등 따습고 배부른 게 최고다.", category: "생활" },
+      { id: 294, type: "proverb", phrase: "미꾸라지 한 마리가 온 웅덩이를 흐린다", meaning: "나쁜 사람 한 명이 전체 분위기를 망친다.", example: "너 한 명이 떠드는 바람에 우리 반 전체가 기합받았잖아. 미꾸라지 한 마리가 온 웅덩이를 흐린다더니.", category: "가족/관계" },
+      { id: 295, type: "proverb", phrase: "벼락 맞은 부잣집", meaning: "갑자기 큰 불행을 당함.", example: "잘 살던 집이 하루아침에 빚더미에 앉다니 벼락 맞은 부잣집 같네.", category: "생활" },
+      { id: 296, type: "proverb", phrase: "혀 아래 도끼 들었다", meaning: "무심코 던진 말이 남에게 큰 상처를 줄 수 있으니 항상 주의해야 한다.", example: "장난이라도 그런 말은 위험해. 혀 아래 도끼 들었다는 말처럼 말 한마디가 누군가에겐 아픔이 될 수 있어.", category: "언행" },
+      { id: 297, type: "proverb", phrase: "우물가에서 숭늉 찾는다", meaning: "성미가 급해서 차례를 기다리지 못함.", example: "아직 요리 시작도 안 했는데 밥 달라고? 우물가에서 숭늉 찾지 마.", category: "처세" },
+      { id: 298, type: "proverb", phrase: "입은 비뚤어져도 말은 바로 해라", meaning: "상황이 어떻든 사실대로 정직하게 말해라.", example: "나를 탓하지 마. 네가 먼저 밀었잖아. 입은 비뚤어져도 말은 바로 해야지.", category: "언행" },
+      { id: 299, type: "proverb", phrase: "쥐구멍에도 볕 들 날 있다", meaning: "고생하는 사람도 언젠가는 좋은 날이 온다.", example: "지금은 힘들지만 포기하지 마. 쥐구멍에도 볕 들 날이 있을 거야.", category: "노력/한계" },
+      { id: 300, type: "proverb", phrase: "하늘의 별 따기", meaning: "얻기가 매우 어려운 상태.", example: "인기 가수의 콘서트 표를 구하는 건 하늘의 별 따기만큼 어려워.", category: "노력/한계" }
+    ];
+
+    // -------------------------------------------------------------
+    // 2. 사운드 이펙트 신디사이저 (Web Audio API 기반 자체 제작형)
+    // -------------------------------------------------------------
+    let soundEnabled = true;
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('sound-icon');
+      if (soundEnabled) {
+        btn.innerText = "🔊";
+        showToast("💡", "효과음이 활성화되었습니다!");
+        playSfx('click');
+      } else {
+        btn.innerText = "🔇";
+        showToast("💡", "효과음이 음소거되었습니다.");
+      }
+    }
+
+    function playSfx(type) {
+      if (!soundEnabled) return;
+      if (!window.AudioContext && !window.webkitAudioContext) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+
+        if (type === 'success') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          osc.frequency.setValueAtTime(1046.5, now + 0.24); // C6
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          osc.start(now);
+          osc.stop(now + 0.45);
+        } else if (type === 'fail') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(196.00, now); // G3
+          osc.frequency.setValueAtTime(130.81, now + 0.12); // C3
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(1200, now + 0.04);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+          osc.start(now);
+          osc.stop(now + 0.06);
+        } else if (type === 'match') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(783.99, now + 0.06); // G5
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } else if (type === 'fanfare') {
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+          notes.forEach((freq, idx) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.type = 'sine';
+            o.frequency.setValueAtTime(freq, now + idx * 0.08);
+            g.gain.setValueAtTime(0.08, now + idx * 0.08);
+            g.gain.exponentialRampToValueAtTime(0.001, now + 0.4 + idx * 0.08);
+            o.start(now + idx * 0.08);
+            o.stop(now + 0.5 + idx * 0.08);
+          });
+        }
+      } catch (e) {
+        console.warn("Audio Context Error: ", e);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 3. 국어 초성(Chosung) 추출기
+    // -------------------------------------------------------------
+    function getChosung(str) {
+      const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+      let result = "";
+      for (let i = 0; i < str.length; i++) {
+        const code = str.charCodeAt(i) - 44032;
+        if (code > -1 && code < 11172) {
+          result += cho[Math.floor(code / 588)];
+        } else {
+          result += str.charAt(i);
+        }
+      }
+      return result;
+    }
+
+    // -------------------------------------------------------------
+    // 4. 전역 애플리케이션 상태 관리
+    // -------------------------------------------------------------
+    let state = {
+      points: 0,
+      totalQuizzes: 0,
+      bookmarks: [],
+      currentCategory: "전체",
+      studyMode: "idiom", // 'idiom', 'proverb', 'combined'
+      
+      // 퀴즈 전용 상태
+      quiz: {
+        type: "choice", // 'choice', 'typing'
+        count: 10,
+        questions: [],
+        currentIndex: 0,
+        correctCount: 0,
+        score: 0,
+        combo: 0,
+        incorrectQuestions: [],
+        wordHintUsed: 0
+      },
+
+      // 매칭 게임 상태
+      matching: {
+        cards: [],
+        selectedCards: [],
+        matchedCount: 0,
+        moves: 0
+      },
+
+      // 스피드런 상태
+      speedrun: {
+        timeLeft: 10, // ⏱️ 극강의 10초
+        timerInterval: null,
+        score: 0,
+        correct: 0,
+        combo: 0,
+        currentQuestion: null,
+        highScore: 0
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 5. 실시간 학습 풀 헬퍼 함수
+    // -------------------------------------------------------------
+    function getCurrentPool() {
+      if (state.studyMode === 'idiom') {
+        return masterDatabase.filter(item => item.type === 'idiom');
+      } else if (state.studyMode === 'proverb') {
+        return masterDatabase.filter(item => item.type === 'proverb');
+      } else {
+        return masterDatabase;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 6. 글로벌 모드 체인저 스위치 제어
+    // -------------------------------------------------------------
+    function setStudyMode(mode) {
+      playSfx('click');
+      state.studyMode = mode;
+
+      const modes = ['idiom', 'proverb', 'combined'];
+      modes.forEach(m => {
+        const btn = document.getElementById(`mode-btn-${m}`);
+        if (m === mode) {
+          btn.className = "px-4 py-2 rounded-xl transition duration-150 bg-emerald-600 text-white shadow-sm";
+        } else {
+          btn.className = "px-4 py-2 rounded-xl transition duration-150 text-slate-600 hover:bg-slate-200";
+        }
+      });
+
+      showToast("🔄", `공부 범위가 [${mode === 'idiom' ? '관용어만' : mode === 'proverb' ? '속담만' : '둘 다 함께'}]로 설정되었습니다!`);
+      
+      // 현재 보이는 화면에 대응하여 사전 리렌더링 및 대시보드 리액티브 반영
+      const dictionaryVisible = !document.getElementById('view-dictionary').classList.contains('hidden');
+      if (dictionaryVisible) {
+        state.currentCategory = "전체";
+        renderDictionary();
+      }
+
+      // 대시보드도 즉시 갱신
+      initDashboard();
+      updateStatsUI();
+      updateBadgeVisuals();
+    }
+
+    // -------------------------------------------------------------
+    // 7. LocalStorage 영구화 연동
+    // -------------------------------------------------------------
+    function saveToLocalStorage() {
+      localStorage.setItem('master_study_points_2026', state.points);
+      localStorage.setItem('master_study_total_quizzes', state.totalQuizzes);
+      localStorage.setItem('master_study_bookmarks', JSON.stringify(state.bookmarks));
+      localStorage.setItem('master_study_speedrun_highscore', state.speedrun.highScore);
+    }
+
+    function loadFromLocalStorage() {
+      if (localStorage.getItem('master_study_points_2026')) {
+        state.points = parseInt(localStorage.getItem('master_study_points_2026'));
+      }
+      if (localStorage.getItem('master_study_total_quizzes')) {
+        state.totalQuizzes = parseInt(localStorage.getItem('master_study_total_quizzes'));
+      }
+      if (localStorage.getItem('master_study_bookmarks')) {
+        state.bookmarks = JSON.parse(localStorage.getItem('master_study_bookmarks'));
+      }
+      if (localStorage.getItem('master_study_speedrun_highscore')) {
+        state.speedrun.highScore = parseInt(localStorage.getItem('master_study_speedrun_highscore'));
+      }
+
+      updateStatsUI();
+    }
+
+    function updateStatsUI() {
+      document.getElementById('user-points').innerText = state.points.toLocaleString();
+      document.getElementById('sidebar-score').innerText = state.points.toLocaleString() + '점';
+      document.getElementById('sidebar-count').innerText = state.totalQuizzes + '회';
+      
+      // 명예 등급 산정
+      let levelText = "어휘 입문가 🐣";
+      if (state.points >= 1500) {
+        levelText = "어휘 절대지존 👑";
+      } else if (state.points >= 800) {
+        levelText = "어휘 장인 🎓";
+      } else if (state.points >= 300) {
+        levelText = "어휘 우등생 🧠";
+      }
+      document.getElementById('badge-level').innerText = levelText;
+      document.getElementById('speedrun-highscore-text').innerText = `${state.speedrun.highScore}점`;
+    }
+
+    function updateBadgeVisuals() {
+      // 뱃지 1: 첫 걸음 (퀴즈 1회 완료)
+      if (state.totalQuizzes >= 1) {
+        document.getElementById('badge-1').classList.remove('opacity-40');
+        document.getElementById('badge-1').classList.add('bg-emerald-50', 'border-emerald-200');
+      }
+      // 뱃지 2: 타임러너 (스피드런 50점 이상)
+      if (state.speedrun.highScore >= 50) {
+        document.getElementById('badge-2').classList.remove('opacity-40');
+        document.getElementById('badge-2').classList.add('bg-amber-50', 'border-amber-200');
+      }
+      // 뱃지 3: 지혜 박사 (1000점 이상)
+      if (state.points >= 1000) {
+        document.getElementById('badge-3').classList.remove('opacity-40');
+        document.getElementById('badge-3').classList.add('bg-purple-50', 'border-purple-200');
+      }
+      // 뱃지 4: 기억력 대가 (매칭 클리어 및 포인트 누적)
+      if (state.points >= 200) {
+        document.getElementById('badge-4').classList.remove('opacity-40');
+        document.getElementById('badge-4').classList.add('bg-blue-50', 'border-blue-200');
+      }
+      // 뱃지 5: 집중 단련 (북마크 5개 등록)
+      if (state.bookmarks.length >= 5) {
+        document.getElementById('badge-5').classList.remove('opacity-40');
+        document.getElementById('badge-5').classList.add('bg-rose-50', 'border-rose-200');
+      }
+      // 뱃지 6: 우수 엘리트
+      if (state.points >= 1500 || state.bookmarks.length >= 10) {
+        document.getElementById('badge-6').classList.remove('opacity-40');
+        document.getElementById('badge-6').classList.add('bg-yellow-50', 'border-yellow-200');
+      }
+    }
+
+    function showToast(emoji, message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-emoji').innerText = emoji;
+      document.getElementById('toast-message').innerText = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // -------------------------------------------------------------
+    // 8. 대시보드 데이터 연동
+    // -------------------------------------------------------------
+    function initDashboard() {
+      const pool = getCurrentPool();
+      if (pool.length === 0) return;
+
+      const day = new Date().getDate();
+      const index = (day * 13) % pool.length;
+      const recommended = pool[index];
+
+      document.getElementById('today-phrase').innerText = recommended.phrase;
+      document.getElementById('today-meaning').innerText = recommended.meaning;
+      document.getElementById('today-example').innerText = `"${recommended.example}"`;
+      
+      const tag = document.getElementById('today-type-tag');
+      if (recommended.type === 'idiom') {
+        tag.innerText = "관용어";
+        tag.className = "text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-black";
+      } else {
+        tag.innerText = "속담";
+        tag.className = "text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-black";
+      }
+
+      document.getElementById('today-phrase').setAttribute('data-id', recommended.id);
+      renderBookmarks();
+    }
+
+    function testSpecificIdiom() {
+      const phraseId = parseInt(document.getElementById('today-phrase').getAttribute('data-id'));
+      const found = masterDatabase.find(i => i.id === phraseId);
+      if (found) {
+        switchView('quiz');
+        showToast("✏️", `[${found.phrase}] 맞춤 학습을 위해 퀴즈 세팅으로 이동합니다.`);
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 9. 플래시 학습 사전 인터페이스 제어
+    // -------------------------------------------------------------
+    function renderCategoryFilters() {
+      const container = document.getElementById('dict-category-container');
+      container.innerHTML = "";
+
+      // 현재 속담 모드면 속담 카테고리, 관용어 모드면 신체 카테고리 구성
+      let activeCategories = [];
+      if (state.studyMode === 'idiom') {
+        activeCategories = ["전체", "눈", "코", "입", "귀", "손", "발", "가슴/속", "머리/얼굴", "기타"];
+      } else if (state.studyMode === 'proverb') {
+        activeCategories = ["전체", "언행", "생활", "가족/관계", "처세", "노력/한계"];
+      } else {
+        activeCategories = ["전체", "관용어", "속담"];
+      }
+      
+      activeCategories.forEach(cat => {
+        const isCurrent = (state.currentCategory === cat) || (state.currentCategory === "전체" && cat === "전체");
+        const activeClass = isCurrent 
+          ? "bg-emerald-600 text-white font-bold" 
+          : "bg-slate-100 text-slate-600 hover:bg-slate-200";
+        
+        const btn = document.createElement('button');
+        btn.className = `px-3.5 py-1.5 rounded-full text-xs transition font-semibold ${activeClass}`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+          playSfx('click');
+          state.currentCategory = cat;
+          renderCategoryFilters();
+          filterDictionary();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderDictionary() {
+      renderCategoryFilters();
+      filterDictionary();
+    }
+
+    function filterDictionary() {
+      const searchVal = document.getElementById('dict-search').value.toLowerCase().trim();
+      const grid = document.getElementById('dictionary-grid');
+      grid.innerHTML = "";
+
+      let pool = getCurrentPool();
+
+      const filtered = pool.filter(item => {
+        let matchesCategory = true;
+        if (state.studyMode === 'combined') {
+          if (state.currentCategory === "관용어") matchesCategory = (item.type === 'idiom');
+          else if (state.currentCategory === "속담") matchesCategory = (item.type === 'proverb');
+        } else {
+          matchesCategory = (state.currentCategory === "전체") || (item.category === state.currentCategory);
+        }
+
+        const matchesSearch = item.phrase.toLowerCase().includes(searchVal) || 
+                              item.meaning.toLowerCase().includes(searchVal) || 
+                              item.example.toLowerCase().includes(searchVal);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-slate-400 text-sm">
+            <span class="text-3xl block mb-2">🔍</span>
+            일치하는 공부 카드가 없습니다. 다른 검색어를 적어보세요.
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const isBookmarked = state.bookmarks.includes(item.id);
+        const card = document.createElement('div');
+        card.className = "h-56 perspective group cursor-pointer";
+        
+        const typeBadgeColor = item.type === 'idiom' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800';
+        const typeName = item.type === 'idiom' ? '관용어' : '속담';
+
+        card.innerHTML = `
+          <div class="relative w-full h-full duration-500 preserve-3d transition-transform rounded-2xl shadow-sm border border-slate-200" id="card-inner-${item.id}">
+            
+            <!-- 앞면 -->
+            <div class="absolute inset-0 w-full h-full rounded-2xl bg-white p-5 flex flex-col justify-between backface-hidden" onclick="flipCard(${item.id})">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-1">
+                  <span class="text-[10px] ${typeBadgeColor} font-black px-2 py-0.5 rounded-full">${typeName}</span>
+                  <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full">${item.category}</span>
+                </div>
+                <button onclick="toggleBookmark(event, ${item.id})" class="text-lg hover:scale-125 transition text-amber-400">
+                  ${isBookmarked ? '★' : '☆'}
+                </button>
+              </div>
+              <div class="text-center flex-1 flex items-center justify-center">
+                <h3 class="text-base md:text-lg font-black text-slate-800 tracking-tight leading-snug break-keep px-2">${item.phrase}</h3>
+              </div>
+              <div class="text-center text-[10px] text-slate-400 border-t border-slate-100 pt-2 font-bold">
+                클릭하여 뜻과 예문 보기 👇
+              </div>
+            </div>
+
+            <!-- 뒷면 -->
+            <div class="absolute inset-0 w-full h-full rounded-2xl bg-emerald-50 border border-emerald-300 p-5 flex flex-col justify-between backface-hidden rotate-y-180" onclick="flipCard(${item.id})">
+              <div class="flex justify-between items-center pb-2 border-b border-emerald-100">
+                <span class="text-[10px] font-extrabold text-emerald-700 bg-white border border-emerald-200 px-2 py-0.5 rounded-full">상세 지혜</span>
+                <span class="text-[10px] font-sans font-extrabold text-emerald-800 truncate max-w-[120px]">${item.phrase}</span>
+              </div>
+              <div class="flex-1 flex flex-col justify-center space-y-3 pt-3">
+                <p class="text-xs md:text-sm font-black text-slate-800 text-center leading-relaxed">
+                  "${item.meaning}"
+                </p>
+                <p class="text-[10px] md:text-[11px] text-slate-500 italic bg-white p-2.5 rounded-xl border border-emerald-100 leading-snug break-keep">
+                  ${item.example}
+                </p>
+              </div>
+              <div class="text-center text-[10px] text-emerald-600 font-bold">
+                다시 클릭하면 원래대로 돌아와요
+              </div>
+            </div>
+
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function flipCard(id) {
+      playSfx('click');
+      const inner = document.getElementById(`card-inner-${id}`);
+      if (inner.classList.contains('rotate-y-180')) {
+        inner.classList.remove('rotate-y-180');
+      } else {
+        inner.classList.add('rotate-y-180');
+      }
+    }
+
+    function toggleBookmark(event, id) {
+      event.stopPropagation();
+      playSfx('click');
+      
+      const idx = state.bookmarks.indexOf(id);
+      if (idx > -1) {
+        state.bookmarks.splice(idx, 1);
+        showToast("⭐", "북마크에서 취소되었습니다.");
+      } else {
+        state.bookmarks.push(id);
+        showToast("⭐", "북마크에 저장되었습니다!");
+      }
+      saveToLocalStorage();
+      updateStatsUI();
+      renderBookmarks();
+      
+      const search = document.getElementById('dict-search');
+      if (search) filterDictionary();
+    }
+
+    function renderBookmarks() {
+      const container = document.getElementById('bookmark-list-container');
+      container.innerHTML = "";
+
+      if (state.bookmarks.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400 text-sm">
+            <p>보관된 북마크가 없습니다.</p>
+            <p class="text-xs mt-1">공부방 사전에서 등록해보세요!</p>
+          </div>
+        `;
+        document.getElementById('bookmark-count').innerText = "0개";
+        return;
+      }
+
+      document.getElementById('bookmark-count').innerText = `${state.bookmarks.length}개`;
+
+      state.bookmarks.forEach(id => {
+        const item = masterDatabase.find(i => i.id === id);
+        if (item) {
+          const div = document.createElement('div');
+          const badgeText = item.type === 'idiom' ? '관용' : '속담';
+          const badgeColor = item.type === 'idiom' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800';
+          div.className = "flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 hover:bg-emerald-50 transition";
+          div.innerHTML = `
+            <div class="text-left flex-1 min-w-0 pr-3">
+              <span class="text-[9px] ${badgeColor} font-black px-1.5 py-0.2 rounded mr-1 inline-block">${badgeText}</span>
+              <span class="font-bold text-slate-800 text-xs inline-block truncate max-w-[120px] align-middle">${item.phrase}</span>
+              <span class="text-[10px] text-slate-500 truncate block mt-0.5">${item.meaning}</span>
+            </div>
+            <button onclick="toggleBookmark(event, ${item.id})" class="text-red-500 hover:text-red-700 font-bold text-xs flex-shrink-0">
+              삭제
+            </button>
+          `;
+          container.appendChild(div);
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 10. 지능형 문맥 빈칸 뚫기 연산 엔진
+    // -------------------------------------------------------------
+    function maskPhraseInExample(phrase, example) {
+      // 띄어쓰기를 쪼개어 가장 길고 지배적인 키워드 추출
+      const tokens = phrase.split(/\s+/).filter(Boolean);
+      let workingExample = example;
+      
+      // 통체로 매치
+      if (workingExample.includes(phrase)) {
+        return workingExample.replace(phrase, " [ ___________ ] ");
+      }
+
+      // 조사가 뒤바뀌는 현상 방어하기 (어미/어근 분할 대조)
+      // 가장 긴 두 토큰 추출
+      const sortedTokens = [...tokens].sort((a,b) => b.length - a.length);
+      const mainKeyword = sortedTokens[0] || "";
+
+      if (mainKeyword.length >= 2 && workingExample.includes(mainKeyword)) {
+        // 주변 텍스트 결합 범위(어미 조사 포함)를 통째 마스킹 처리
+        const index = workingExample.indexOf(mainKeyword);
+        // 문맥상 단어의 바운더리를 찾기 위한 보정 (뒤쪽 단어 띄어쓰기 앞까지)
+        const nextSpace = workingExample.indexOf(" ", index);
+        const endPos = nextSpace > -1 ? nextSpace : workingExample.length - 1;
+        
+        // 끝의 마침표/쉼표 등은 보존
+        const cutEnd = Math.min(endPos, index + phrase.length + 3);
+        const originalTargetText = workingExample.substring(index, cutEnd);
+        
+        // 끝에 매달려있던 문장 기호 추출
+        const trailingSymbols = originalTargetText.match(/[.,!?"'’“]+$/) || [""];
+        workingExample = workingExample.replace(originalTargetText, " [ ___________ ]" + trailingSymbols[0]);
+        return workingExample;
+      }
+
+      // 끝판 보루: 첫 어절 대조 치환
+      if (tokens[0] && workingExample.includes(tokens[0])) {
+        return workingExample.replace(tokens[0], " [ ___________ ] ");
+      }
+
+      return workingExample;
+    }
+
+    // -------------------------------------------------------------
+    // 11. 빈칸 채우기 퀴즈 구동
+    // -------------------------------------------------------------
+    function setQuizType(type) {
+      playSfx('click');
+      state.quiz.type = type;
+      document.getElementById('btn-quiz-choice').className = type === 'choice' 
+        ? "p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 flex flex-col items-center justify-center space-y-2 transition"
+        : "p-4 rounded-2xl border-2 border-slate-200 hover:border-emerald-300 flex flex-col items-center justify-center space-y-2 transition";
+      
+      document.getElementById('btn-quiz-typing').className = type === 'typing' 
+        ? "p-4 rounded-2xl border-2 border-emerald-600 bg-emerald-50 flex flex-col items-center justify-center space-y-2 transition"
+        : "p-4 rounded-2xl border-2 border-slate-200 hover:border-emerald-300 flex flex-col items-center justify-center space-y-2 transition";
+    }
+
+    function setQuizCount(count) {
+      playSfx('click');
+      state.quiz.count = count;
+      const counts = [5, 10, 20, 30];
+      counts.forEach(c => {
+        const btn = document.getElementById(`btn-count-${c}`);
+        if (c === count) {
+          btn.className = "py-2.5 rounded-xl border-2 border-emerald-600 font-bold text-sm bg-emerald-50 text-emerald-950";
+        } else {
+          btn.className = "py-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 font-bold text-sm bg-white text-slate-700";
+        }
+      });
+    }
+
+    function startQuiz() {
+      playSfx('click');
+      const pool = getCurrentPool();
+
+      if (pool.length < 4) {
+        showToast("⚠️", "현재 공부 범위의 리스트가 너무 부족합니다. 전체 범위로 대조합니다.");
+        state.studyMode = 'combined';
+        setStudyMode('combined');
+      }
+
+      // 학습 범위 데이터 가공 셔플
+      let candidates = [...getCurrentPool()].sort(() => Math.random() - 0.5);
+      
+      state.quiz.questions = candidates.slice(0, Math.min(state.quiz.count, candidates.length));
+      state.quiz.currentIndex = 0;
+      state.quiz.correctCount = 0;
+      state.quiz.score = 0;
+      state.quiz.combo = 0;
+      state.quiz.incorrectQuestions = [];
+      state.quiz.wordHintUsed = 0;
+
+      document.getElementById('quiz-setup').classList.add('hidden');
+      document.getElementById('quiz-active').classList.remove('hidden');
+      document.getElementById('quiz-result').classList.add('hidden');
+
+      loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+      const qState = state.quiz;
+      const current = qState.questions[qState.currentIndex];
+
+      document.getElementById('quiz-current-index').innerText = qState.currentIndex + 1;
+      document.getElementById('quiz-total-index').innerText = qState.questions.length;
+      document.getElementById('quiz-score-badge').innerText = `현재 ${qState.score}점`;
+
+      // 현 퀴즈 품종에 맞춰 배지 표시
+      const activeBadge = document.getElementById('quiz-active-pool-badge');
+      if (current.type === 'idiom') {
+        activeBadge.innerText = "관용어";
+        activeBadge.className = "text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold";
+      } else {
+        activeBadge.innerText = "속담";
+        activeBadge.className = "text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold";
+      }
+
+      const pct = ((qState.currentIndex) / qState.questions.length) * 100;
+      document.getElementById('quiz-progress').style.width = `${pct}%`;
+
+      const comboBadge = document.getElementById('quiz-combo-badge');
+      if (qState.combo > 0) {
+        comboBadge.innerText = `${qState.combo} 콤보! 🔥`;
+        comboBadge.classList.remove('hidden');
+      } else {
+        comboBadge.classList.add('hidden');
+      }
+
+      document.getElementById('quiz-meaning-text').innerText = current.meaning;
+      qState.currentAnswer = current.phrase;
+
+      // 지능형 문맥 빈칸 자동 마스킹 치환
+      const maskedExample = maskPhraseInExample(current.phrase, current.example);
+      document.getElementById('quiz-sentence-box').innerText = maskedExample;
+
+      qState.wordHintUsed = 0;
+      document.getElementById('btn-quiz-word-hint').classList.remove('opacity-50');
+      document.getElementById('btn-quiz-word-hint').disabled = false;
+
+      const chosung = getChosung(current.phrase);
+      document.getElementById('quiz-chosung-text').innerText = chosung;
+
+      if (qState.type === 'choice') {
+        document.getElementById('quiz-hint-section').classList.add('hidden');
+        document.getElementById('quiz-options-panel').classList.remove('hidden');
+        document.getElementById('quiz-typing-panel').classList.add('hidden');
+        generateQuizChoices(current);
+      } else {
+        document.getElementById('quiz-hint-section').classList.remove('hidden');
+        document.getElementById('quiz-options-panel').classList.add('hidden');
+        document.getElementById('quiz-typing-panel').classList.remove('hidden');
+        
+        const input = document.getElementById('quiz-typing-input');
+        input.value = "";
+        setTimeout(() => input.focus(), 150);
+      }
+    }
+
+    function generateQuizChoices(correctItem) {
+      const panel = document.getElementById('quiz-options-panel');
+      panel.innerHTML = "";
+
+      // 동일 타입 내에서 매력적 오답 풀 형성
+      let wrongPool = masterDatabase.filter(i => i.id !== correctItem.id && i.type === correctItem.type);
+      if (wrongPool.length < 3) {
+        wrongPool = masterDatabase.filter(i => i.id !== correctItem.id);
+      }
+      
+      const selectedWrongs = [...wrongPool].sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [correctItem, ...selectedWrongs].sort(() => Math.random() - 0.5);
+
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = "w-full bg-slate-50 hover:bg-emerald-50 hover:border-emerald-300 border border-slate-200 rounded-2xl p-4 text-left text-xs md:text-sm font-bold transition flex items-center space-x-3 text-slate-700";
+        btn.innerHTML = `
+          <span class="w-5 h-5 rounded-full bg-slate-200 flex items-center justify-center text-[10px] text-slate-500 font-sans flex-shrink-0"></span>
+          <span class="flex-1">${choice.phrase}</span>
+        `;
+        btn.onclick = () => submitQuizAnswer(choice.phrase === correctItem.phrase, btn);
+        panel.appendChild(btn);
+      });
+    }
+
+    function submitQuizAnswer(isCorrect, elementNode) {
+      const qState = state.quiz;
+      const current = qState.questions[qState.currentIndex];
+
+      if (isCorrect) {
+        playSfx('success');
+        qState.correctCount++;
+        qState.combo++;
+        
+        const bonus = Math.min(qState.combo * 2, 10);
+        qState.score += (10 + bonus);
+        state.points += (10 + bonus);
+
+        if (elementNode) {
+          elementNode.className = "w-full bg-emerald-500 border-2 border-emerald-500 text-white rounded-2xl p-4 text-left text-xs md:text-sm font-bold transition flex items-center space-x-3 scale-102 transform duration-150";
+        }
+        showToast("🎉", `정답입니다! +${10 + bonus}점 (연속 🔥 ${qState.combo})`);
+      } else {
+        playSfx('fail');
+        qState.combo = 0;
+        
+        qState.incorrectQuestions.push({
+          question: current,
+          userAnswer: qState.type === 'typing' ? document.getElementById('quiz-typing-input').value : "객관식 오답"
+        });
+
+        if (elementNode) {
+          elementNode.className = "w-full bg-red-500 border-2 border-red-500 text-white rounded-2xl p-4 text-left text-xs md:text-sm font-bold transition flex items-center space-x-3 scale-102 transform duration-150";
+        }
+        showToast("❌", `아쉬워요! 정답은 [${current.phrase}] 입니다.`);
+      }
+
+      disableButtons();
+      setTimeout(() => {
+        nextQuizQuestion();
+      }, 1200);
+    }
+
+    function disableButtons() {
+      const btns = document.querySelectorAll('#quiz-options-panel button');
+      btns.forEach(b => b.disabled = true);
+      const typingBtn = document.querySelector('#quiz-typing-panel button');
+      if (typingBtn) typingBtn.disabled = true;
+    }
+
+    function revealWordHint() {
+      const qState = state.quiz;
+      const current = qState.questions[qState.currentIndex];
+      qState.wordHintUsed++;
+      
+      let hintChar = "";
+      if (qState.wordHintUsed === 1) {
+        hintChar = current.phrase.charAt(0);
+        showToast("💡", `첫 글자는 [${hintChar}] 입니다! (-2점 패널티)`);
+      } else {
+        hintChar = current.phrase.charAt(2) || current.phrase.charAt(1);
+        showToast("💡", `도움 힌트 글자: [${hintChar}]! (-4점 패널티)`);
+      }
+
+      if (qState.wordHintUsed >= 2) {
+        document.getElementById('btn-quiz-word-hint').classList.add('opacity-50');
+        document.getElementById('btn-quiz-word-hint').disabled = true;
+      }
+    }
+
+    function checkTypingEnter(e) {
+      if (e.key === 'Enter') {
+        submitTypingAnswer();
+      }
+    }
+
+    function submitTypingAnswer() {
+      const qState = state.quiz;
+      const current = qState.questions[qState.currentIndex];
+      const rawInput = document.getElementById('quiz-typing-input').value.trim();
+      
+      const formattedInput = rawInput.replace(/ /g, "");
+      const formattedCorrect = current.phrase.replace(/ /g, "");
+
+      const isCorrect = (formattedInput === formattedCorrect);
+      
+      if (isCorrect) {
+        let scorePenalty = qState.wordHintUsed * 3;
+        qState.correctCount++;
+        qState.combo++;
+        const finalScore = Math.max(3, 10 - scorePenalty);
+        qState.score += finalScore;
+        state.points += finalScore;
+        showToast("🎉", `명석합니다! 주관식 정답! +${finalScore}점`);
+      } else {
+        qState.combo = 0;
+        qState.incorrectQuestions.push({
+          question: current,
+          userAnswer: rawInput || "(미입력)"
+        });
+        playSfx('fail');
+        showToast("❌", `정답은 [${current.phrase}] 입니다.`);
+      }
+
+      nextQuizQuestion();
+    }
+
+    function nextQuizQuestion() {
+      const qState = state.quiz;
+      qState.currentIndex++;
+
+      if (qState.currentIndex < qState.questions.length) {
+        loadQuizQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      playSfx('fanfare');
+      state.totalQuizzes++;
+      saveToLocalStorage();
+      updateStatsUI();
+
+      document.getElementById('quiz-active').classList.add('hidden');
+      document.getElementById('quiz-result').classList.remove('hidden');
+
+      const qState = state.quiz;
+      document.getElementById('result-score').innerText = `${qState.score}점`;
+      document.getElementById('result-rate').innerText = `${qState.correctCount} / ${qState.questions.length}`;
+
+      const rate = qState.correctCount / qState.questions.length;
+      let title = "노력이 더 필요해요!";
+      let emoji = "✍️";
+      if (rate >= 0.9) {
+        title = "완벽해요! 장인 등급 등극!";
+        emoji = "👑";
+      } else if (rate >= 0.7) {
+        title = "정말 훌륭한 국어 실력이네요!";
+        emoji = "⭐";
+      } else if (rate >= 0.4) {
+        title = "조금만 다듬으면 백 점 만점이에요!";
+        emoji = "👍";
+      }
+
+      document.getElementById('result-title').innerText = title;
+      document.getElementById('result-emoji').innerText = emoji;
+
+      const noteSection = document.getElementById('incorrect-note-section');
+      const noteContainer = document.getElementById('incorrect-note-container');
+      noteContainer.innerHTML = "";
+
+      if (qState.incorrectQuestions.length > 0) {
+        noteSection.classList.remove('hidden');
+        qState.incorrectQuestions.forEach(item => {
+          const div = document.createElement('div');
+          const typeLabel = item.question.type === 'idiom' ? '관용어' : '속담';
+          const typeColor = item.question.type === 'idiom' ? 'text-amber-600 bg-amber-50' : 'text-blue-600 bg-blue-50';
+          div.className = "p-3.5 bg-slate-50 border-b border-slate-200 text-xs";
+          div.innerHTML = `
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-extrabold text-slate-800 text-sm">${item.question.phrase}</span>
+              <span class="text-[10px] ${typeColor} px-2 py-0.5 rounded font-bold">${typeLabel}</span>
+            </div>
+            <p class="text-slate-500 mb-1"><strong>의미:</strong> ${item.question.meaning}</p>
+            <p class="text-slate-400 italic"><strong>예시:</strong> ${item.question.example}</p>
+            <p class="text-red-500 mt-1">❌ 내가 제출한 답: <span class="font-bold">${item.userAnswer}</span></p>
+          `;
+          noteContainer.appendChild(div);
+        });
+      } else {
+        noteSection.classList.add('hidden');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 12. 카드 짝 맞추기 게임 보드
+    // -------------------------------------------------------------
+    function initMatchingGame() {
+      const matchState = state.matching;
+      matchState.selectedCards = [];
+      matchState.matchedCount = 0;
+      matchState.moves = 0;
+
+      document.getElementById('match-moves').innerText = "0";
+      document.getElementById('match-win-banner').classList.add('hidden');
+
+      const pool = getCurrentPool();
+      if (pool.length < 4) {
+        showToast("⚠️", "현재 분류의 카드가 부족합니다.");
+        return;
+      }
+
+      const shuffled = [...pool].sort(() => Math.random() - 0.5);
+      const selected = shuffled.slice(0, 4);
+
+      let deck = [];
+      selected.forEach(item => {
+        deck.push({ id: item.id, type: 'phrase', text: item.phrase });
+        deck.push({ id: item.id, type: 'meaning', text: item.meaning });
+      });
+
+      deck.sort(() => Math.random() - 0.5);
+      matchState.cards = deck;
+
+      renderMatchingBoard();
+    }
+
+    function renderMatchingBoard() {
+      const board = document.getElementById('matching-board');
+      board.innerHTML = "";
+
+      state.matching.cards.forEach((card, index) => {
+        const item = document.createElement('div');
+        item.className = "h-28 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-2.5 text-center cursor-pointer hover:border-emerald-500 hover:shadow-sm transition transform active:scale-95 duration-200";
+        item.id = `match-card-${index}`;
+        item.innerHTML = `
+          <p class="text-xs font-black text-slate-700 leading-snug break-keep">
+            ${card.text}
+          </p>
+        `;
+        item.onclick = () => selectMatchingCard(index);
+        board.appendChild(item);
+      });
+    }
+
+    function selectMatchingCard(index) {
+      const matchState = state.matching;
+      const cardNode = document.getElementById(`match-card-${index}`);
+      
+      if (cardNode.classList.contains('bg-emerald-50') || cardNode.classList.contains('bg-slate-200') || matchState.selectedCards.includes(index)) {
+        return;
+      }
+
+      playSfx('click');
+
+      cardNode.className = "h-28 bg-emerald-50 border-2 border-emerald-500 rounded-2xl flex items-center justify-center p-2.5 text-center cursor-pointer shadow transition scale-102";
+      matchState.selectedCards.push(index);
+
+      if (matchState.selectedCards.length === 2) {
+        matchState.moves++;
+        document.getElementById('match-moves').innerText = matchState.moves;
+
+        const idx1 = matchState.selectedCards[0];
+        const idx2 = matchState.selectedCards[1];
+        const card1 = matchState.cards[idx1];
+        const card2 = matchState.cards[idx2];
+
+        if (card1.id === card2.id && card1.type !== card2.type) {
+          setTimeout(() => {
+            playSfx('match');
+            const node1 = document.getElementById(`match-card-${idx1}`);
+            const node2 = document.getElementById(`match-card-${idx2}`);
+
+            node1.className = "h-28 bg-emerald-500 border-2 border-emerald-500 text-white rounded-2xl flex items-center justify-center p-2.5 text-center transition opacity-60";
+            node2.className = "h-28 bg-emerald-500 border-2 border-emerald-500 text-white rounded-2xl flex items-center justify-center p-2.5 text-center transition opacity-60";
+
+            matchState.matchedCount += 2;
+            matchState.selectedCards = [];
+
+            if (matchState.matchedCount === matchState.cards.length) {
+              winMatchingGame();
+            }
+          }, 400);
+        } else {
+          setTimeout(() => {
+            playSfx('fail');
+            const node1 = document.getElementById(`match-card-${idx1}`);
+            const node2 = document.getElementById(`match-card-${idx2}`);
+
+            node1.className = "h-28 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-2.5 text-center cursor-pointer hover:border-emerald-500 transition";
+            node2.className = "h-28 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-center p-2.5 text-center cursor-pointer hover:border-emerald-500 transition";
+
+            matchState.selectedCards = [];
+          }, 800);
+        }
+      }
+    }
+
+    function winMatchingGame() {
+      playSfx('fanfare');
+      document.getElementById('match-win-banner').classList.remove('hidden');
+      
+      state.points += 50;
+      saveToLocalStorage();
+      updateStatsUI();
+      showToast("🎁", "매칭 보드 클리어 완료! +50 보너스 지급!");
+    }
+
+    // -------------------------------------------------------------
+    // 13. 서바이벌 스피드런 (10초 생존)
+    // -------------------------------------------------------------
+    function startSpeedRun() {
+      playSfx('click');
+      const sr = state.speedrun;
+      sr.timeLeft = 10; // ⏱️ 극강의 10초 시작
+      sr.score = 0;
+      sr.correct = 0;
+      sr.combo = 0;
+
+      document.getElementById('speedrun-lobby').classList.add('hidden');
+      document.getElementById('speedrun-active').classList.remove('hidden');
+      document.getElementById('speedrun-result').classList.add('hidden');
+
+      document.getElementById('speedrun-timer').innerText = "10s";
+      document.getElementById('speedrun-current-score').innerText = "0점";
+      document.getElementById('speedrun-combo-text').classList.add('hidden');
+
+      // 활성 스코어 풀 배지 설정
+      const runPoolBadge = document.getElementById('speedrun-active-pool-badge');
+      if (state.studyMode === 'idiom') runPoolBadge.innerText = "관용어 전용";
+      else if (state.studyMode === 'proverb') runPoolBadge.innerText = "속담 전용";
+      else runPoolBadge.innerText = "통합 무작위";
+
+      loadSpeedRunQuestion();
+      startSpeedRunTimer();
+    }
+
+    function startSpeedRunTimer() {
+      const sr = state.speedrun;
+      clearInterval(sr.timerInterval);
+
+      sr.timerInterval = setInterval(() => {
+        sr.timeLeft -= 1;
+        document.getElementById('speedrun-timer').innerText = `${sr.timeLeft}s`;
+
+        // 30초 최대 한도 기준 타이머 비주얼 바 비율 계산
+        const pct = (sr.timeLeft / 30) * 100;
+        document.getElementById('speedrun-time-bar').style.width = `${Math.min(100, Math.max(0, pct))}%`;
+
+        if (sr.timeLeft <= 0) {
+          finishSpeedRun();
+        }
+      }, 1000);
+    }
+
+    function stopSpeedRunTimer() {
+      clearInterval(state.speedrun.timerInterval);
+    }
+
+    function loadSpeedRunQuestion() {
+      const sr = state.speedrun;
+      const pool = getCurrentPool();
+
+      if (pool.length === 0) return;
+      
+      const randomIdx = Math.floor(Math.random() * pool.length);
+      sr.currentQuestion = pool[randomIdx];
+
+      document.getElementById('speedrun-meaning').innerText = sr.currentQuestion.meaning;
+      document.getElementById('speedrun-pool-type-tag').innerText = sr.currentQuestion.type === 'idiom' ? '이 뜻에 맞는 관용구는?' : '이 뜻에 맞는 속담은?';
+
+      let wrongPool = pool.filter(i => i.id !== sr.currentQuestion.id);
+      if (wrongPool.length < 3) {
+        wrongPool = masterDatabase.filter(i => i.id !== sr.currentQuestion.id);
+      }
+
+      let selectedWrongs = [...wrongPool].sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [sr.currentQuestion, ...selectedWrongs].sort(() => Math.random() - 0.5);
+
+      const optionsDiv = document.getElementById('speedrun-options');
+      optionsDiv.innerHTML = "";
+
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = "w-full bg-slate-50 hover:bg-red-50 hover:border-red-300 border border-slate-200 rounded-2xl p-4 text-left font-bold transition text-xs md:text-sm text-slate-700";
+        btn.innerText = choice.phrase;
+        btn.onclick = () => submitSpeedRunAnswer(choice.id === sr.currentQuestion.id);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function submitSpeedRunAnswer(isCorrect) {
+      const sr = state.speedrun;
+      if (isCorrect) {
+        playSfx('success');
+        sr.correct++;
+        sr.combo++;
+        
+        const comboMultiplier = Math.floor(sr.combo / 3) + 1;
+        const addScore = 5 * comboMultiplier;
+        sr.score += addScore;
+        
+        // 정답 시 3초 연장 (최대 30초 한계)
+        sr.timeLeft = Math.min(30, sr.timeLeft + 3);
+
+        const comboTxt = document.getElementById('speedrun-combo-text');
+        if (sr.combo >= 3) {
+          comboTxt.innerText = `🔥 ${sr.combo} 연속 정답 행진 중! (점수 배율 x${comboMultiplier})`;
+          comboTxt.classList.remove('hidden');
+        } else {
+          comboTxt.classList.add('hidden');
+        }
+
+        showToast("⚡", `스피드 정답! +${addScore}점 / 생명연장 +3초!`);
+      } else {
+        playSfx('fail');
+        sr.combo = 0;
+        document.getElementById('speedrun-combo-text').classList.add('hidden');
+
+        // 오답 선택 시 패널티 감점 -5초
+        sr.timeLeft = Math.max(0, sr.timeLeft - 5);
+        showToast("⚠️", `오답 발생! -5초 패널티 감점`);
+      }
+
+      document.getElementById('speedrun-current-score').innerText = `${sr.score}점`;
+      loadSpeedRunQuestion();
+    }
+
+    function finishSpeedRun() {
+      stopSpeedRunTimer();
+      playSfx('fanfare');
+
+      const sr = state.speedrun;
+      if (sr.score > sr.highScore) {
+        sr.highScore = sr.score;
+        showToast("🏆", "축하합니다! 새로운 역대 스피드런 기록 수립!");
+      }
+
+      state.points += sr.score;
+      saveToLocalStorage();
+      updateStatsUI();
+
+      document.getElementById('speedrun-active').classList.add('hidden');
+      document.getElementById('speedrun-result').classList.remove('hidden');
+
+      document.getElementById('speedrun-result-score').innerText = `${sr.score}점`;
+      document.getElementById('speedrun-result-correct').innerText = `${sr.correct}개`;
+    }
+
+    // -------------------------------------------------------------
+    // 14. 교실 결과 리포트 복사
+    // -------------------------------------------------------------
+    function copyClassroomReport(type) {
+      let nameInput = "";
+      let reportText = "";
+      const currentModeLabel = state.studyMode === 'idiom' ? '관용어만' : state.studyMode === 'proverb' ? '속담만' : '관용어+속담 통합';
+
+      if (type === 'quiz') {
+        nameInput = document.getElementById('quiz-student-name').value.trim();
+        if (!nameInput) {
+          showToast("⚠️", "학생 이름을 적어주셔야 결과를 복사할 수 있습니다!");
+          return;
+        }
+        const qState = state.quiz;
+        const rateText = `${qState.correctCount}/${qState.questions.length}`;
+        reportText = `[🏆 국어 퀴즈 결과제출] 이름: ${nameInput} | 학습 범위: ${currentModeLabel} | 정답률: ${rateText} | 획득 점수: ${qState.score}점 | 맞춘 정답: ${qState.correctCount}개`;
+      } else if (type === 'speedrun') {
+        nameInput = document.getElementById('speedrun-student-name').value.trim();
+        if (!nameInput) {
+          showToast("⚠️", "이름을 적어주셔야 복사할 수 있습니다!");
+          return;
+        }
+        const srState = state.speedrun;
+        reportText = `[⚡ 스피드런 결과제출] 이름: ${nameInput} | 학습 범위: ${currentModeLabel} | 최종 획득점수: ${srState.score}점 | 맞춘 어휘 수: ${srState.correct}개`;
+      }
+
+      // 복사 호환성을 극대화하기 위한 텍스트에어리어 폴백
+      const textarea = document.createElement('textarea');
+      textarea.value = reportText;
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        const success = document.execCommand('copy');
+        if (success) {
+          playSfx('success');
+          showToast("📋", `${nameInput}님의 지혜 보고서가 복사되었습니다! 붙여넣기 하세요.`);
+        } else {
+          showToast("❌", "복사 실패! 수동으로 복사해주세요.");
+        }
+      } catch (err) {
+        showToast("❌", "클립보드 접근 권한이 제한되어 있습니다.");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // -------------------------------------------------------------
+    // 15. 애플리케이션 화면 전역 제어부
+    // -------------------------------------------------------------
+    function switchView(viewName) {
+      playSfx('click');
+      
+      const navIds = ['dashboard', 'dictionary', 'quiz', 'matching', 'speedrun'];
+      navIds.forEach(id => {
+        const btn = document.getElementById(`nav-${id}`);
+        if (btn) {
+          btn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 hover:bg-emerald-500 text-emerald-100 hover:text-white";
+        }
+      });
+
+      const activeBtn = document.getElementById(`nav-${viewName}`);
+      if (activeBtn) {
+        activeBtn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition duration-200 bg-emerald-700 text-white font-semibold shadow-inner";
+      }
+
+      navIds.forEach(id => {
+        const view = document.getElementById(`view-${id}`);
+        if (view) view.classList.add('hidden');
+      });
+
+      const targetView = document.getElementById(`view-${viewName}`);
+      if (targetView) targetView.classList.remove('hidden');
+
+      const titleMap = {
+        'dashboard': '학습 대시보드 🎓',
+        'dictionary': '플래시 학습 사전 📖',
+        'quiz': '빈칸 채우기 퀴즈 ✏️',
+        'matching': '카드 짝 맞추기 게임 🃏',
+        'speedrun': '서바이벌 스피드런 ⚡'
+      };
+      document.getElementById('current-view-title').innerText = titleMap[viewName];
+
+      if (viewName === 'dictionary') {
+        renderDictionary();
+      } else if (viewName === 'matching') {
+        initMatchingGame();
+      } else if (viewName === 'dashboard') {
+        initDashboard();
+        updateBadgeVisuals();
+      } else if (viewName === 'speedrun') {
+        stopSpeedRunTimer();
+        document.getElementById('speedrun-lobby').classList.remove('hidden');
+        document.getElementById('speedrun-active').classList.add('hidden');
+        document.getElementById('speedrun-result').classList.add('hidden');
+      }
+
+      document.getElementById('main-content-scroll').scrollTop = 0;
+    }
+
+    // -------------------------------------------------------------
+    // 16. 페이지 최상단 온로드 트리거
+    // -------------------------------------------------------------
+    window.onload = function() {
+      loadFromLocalStorage();
+      initDashboard();
+      renderDictionary();
+    };
+  </script>
+
+</body>
+</html>
